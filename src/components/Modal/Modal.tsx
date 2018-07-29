@@ -6,6 +6,10 @@ import {wrapWithComponent} from '@shopify/react-utilities/components';
 import {autobind} from '@shopify/javascript-utilities/decorators';
 import {createUniqueIDFactory} from '@shopify/javascript-utilities/other';
 import {TransitionGroup} from 'react-transition-group';
+import {createPortal} from 'react-dom';
+import {isServer} from '@shopify/react-utilities/target';
+import {cloneStyleSheets, styleSheetsLoaded} from '../../utilities/stylesheets';
+import {OpenConfig} from '../../embedded/easdk/components/Modal';
 import {ComplexAction, contentContextTypes} from '../../types';
 import {
   withAppProvider,
@@ -20,6 +24,8 @@ import Footer, {FooterProps} from './components/Footer';
 import * as styles from './Modal.scss';
 
 const IFRAME_LOADING_HEIGHT = 200;
+const PORTAL_DEFAULT_BODY_HEIGHT = 400;
+const PORTAL_FOOTER_HEIGHT = 69;
 
 export type Width = 'large' | 'fullwidth';
 export type Warn = 'easdk' | 'modal';
@@ -49,6 +55,11 @@ export interface Props extends FooterProps {
   width?: Width;
   /** Controls the height of the modal (EASDK use only, in pixels) */
   height?: number;
+  /**
+   * Automatically clone the document stylesheets into the modal iframe (EASDK use only)
+   * @default true
+   */
+  cloneStyleSheets?: boolean;
   /** Callback when the modal is closed */
   onClose(): void;
   /** Callback when iframe has loaded (Modal use only) */
@@ -60,6 +71,7 @@ export type CombinedProps = Props & WithAppProviderProps;
 
 export interface State {
   iframeHeight: number;
+  contentPortalNode: HTMLElement | null;
 }
 
 const getUniqueID = createUniqueIDFactory('modal-header');
@@ -74,6 +86,7 @@ export class Modal extends React.Component<CombinedProps, State> {
 
   state: State = {
     iframeHeight: IFRAME_LOADING_HEIGHT,
+    contentPortalNode: null,
   };
 
   private headerId = getUniqueID();
@@ -82,6 +95,17 @@ export class Modal extends React.Component<CombinedProps, State> {
     return {
       withinContentContainer: true,
     };
+  }
+
+  get showPortalContent() {
+    if (
+      isServer ||
+      this.context.easdk == null ||
+      !this.context.easdk.modalSrc
+    ) {
+      return false;
+    }
+    return true;
   }
 
   componentDidMount() {
@@ -122,7 +146,7 @@ export class Modal extends React.Component<CombinedProps, State> {
   }
 
   render() {
-    if (this.context.easdk != null) {
+    if (!this.showPortalContent && this.context.easdk != null) {
       return null;
     }
 
@@ -187,6 +211,22 @@ export class Modal extends React.Component<CombinedProps, State> {
           {body}
         </Scrollable>
       );
+
+      if (this.showPortalContent) {
+        const {contentPortalNode} = this.state;
+        const portalMarkup = (
+          <React.Fragment>
+            <Scrollable shadow className={styles.PortalBody}>
+              {body}
+            </Scrollable>
+            <div className={styles.PortalFooter}>{footerMarkup}</div>
+          </React.Fragment>
+        );
+
+        return contentPortalNode
+          ? createPortal(portalMarkup, contentPortalNode)
+          : null;
+      }
 
       const headerMarkup = title ? (
         <Header id={this.headerId} onClose={handleClose} testID="ModalHeader">
@@ -267,6 +307,32 @@ export class Modal extends React.Component<CombinedProps, State> {
     }
   }
 
+  @autobind
+  private async handleFrameLoaded(modalFrame: Window | null) {
+    if (!this.showPortalContent || !modalFrame) {
+      return;
+    }
+    const modalContentDocument = modalFrame.window.document;
+    const contentPortalNode = document.createElement('div');
+    contentPortalNode.classList.add(styles.PortalWrapper);
+    contentPortalNode.setAttribute(
+      'data-embedded-modal-content-id',
+      this.headerId,
+    );
+    modalContentDocument.body.appendChild(contentPortalNode);
+    await this.cloneStyleSheetsToModal(modalContentDocument);
+    this.setState({contentPortalNode});
+  }
+
+  private cloneStyleSheetsToModal(modalContentDocument: Document) {
+    const {cloneStyleSheets: shouldCloneStyleSheets = true} = this.props;
+    if (!shouldCloneStyleSheets) {
+      return;
+    }
+    const styleSheets = cloneStyleSheets(document, modalContentDocument);
+    return styleSheetsLoaded(styleSheets);
+  }
+
   private handleEASDKMessaging() {
     const {easdk} = this.context;
     const {open} = this.props;
@@ -274,15 +340,45 @@ export class Modal extends React.Component<CombinedProps, State> {
       return;
     }
 
+    const modalOpenConfig = this.showPortalContent
+      ? this.getModalPortalOpenProps()
+      : this.props;
+
     if (open) {
-      this.handleWarning('easdk');
-      easdk.Modal.open(this.props);
+      this.handleWarning('easdk', modalOpenConfig);
+      easdk.Modal.open(modalOpenConfig);
     } else {
       easdk.Modal.close();
+      this.setState({contentPortalNode: null});
     }
   }
 
-  private handleWarning(type: Warn) {
+  private getModalPortalOpenProps(): OpenConfig | CombinedProps {
+    const {easdk} = this.context;
+    if (easdk == null) {
+      return this.props;
+    }
+
+    const bodyHeight = this.props.height || PORTAL_DEFAULT_BODY_HEIGHT;
+    const footerHeight =
+      this.props.primaryAction || this.props.secondaryActions
+        ? PORTAL_FOOTER_HEIGHT
+        : 0;
+    const height = bodyHeight + footerHeight;
+    return {
+      ...this.props,
+      src: easdk.modalSrc,
+      height,
+      primaryAction: undefined,
+      secondaryActions: undefined,
+      onFrameLoaded: this.handleFrameLoaded,
+    };
+  }
+
+  private handleWarning(
+    type: Warn,
+    customizedProps?: OpenConfig | CombinedProps,
+  ) {
     const {
       polaris: {intl},
     } = this.props;
@@ -298,9 +394,10 @@ export class Modal extends React.Component<CombinedProps, State> {
       },
     };
 
+    const propsToCheck = customizedProps ? customizedProps : this.props;
     const missingProps = Object.keys(reqProps[type]).reduce(
       (acc: string[], key) => {
-        if (!this.props.hasOwnProperty(key)) {
+        if (!propsToCheck.hasOwnProperty(key)) {
           acc.push(key);
         }
         return acc;
@@ -318,8 +415,8 @@ export class Modal extends React.Component<CombinedProps, State> {
     }
 
     const actionWarnings = handleActionWanrings(
-      this.props.primaryAction,
-      this.props.secondaryActions,
+      propsToCheck.primaryAction,
+      propsToCheck.secondaryActions,
     );
 
     if (type === 'easdk' && actionWarnings.length > 0) {

@@ -55,3 +55,18 @@ $backdrop-color: rgba(33, 43, 54, 0.4);
   margin: spacing();
   text-align: center;
 }
+
+.PortalWrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .PortalBody {
+    flex-grow: 1;
+  }
+
+  .PortalFooter {
+    // same as Dialog => .Modal
+    background: color('white');
+  }
+}

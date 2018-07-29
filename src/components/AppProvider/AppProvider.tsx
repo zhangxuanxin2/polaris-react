@@ -18,6 +18,8 @@ export interface Props {
   apiKey?: string;
   /** The current shop’s origin, provided in the session from the Shopify API */
   shopOrigin?: string;
+  /** The application URL to be reserved for modal contents */
+  modalSrc?: string;
   /** Forces a redirect to the relative admin path when not rendered in an iframe */
   forceRedirect?: boolean;
   /** Prints logs of each message passed through the EASDK */
@@ -54,6 +56,7 @@ export default class AppProvider extends React.Component<Props> {
     linkComponent,
     apiKey,
     shopOrigin,
+    modalSrc,
     forceRedirect,
     debug,
   }: Props) {
@@ -62,6 +65,7 @@ export default class AppProvider extends React.Component<Props> {
       linkComponent !== this.props.linkComponent ||
       apiKey !== this.props.apiKey ||
       shopOrigin !== this.props.shopOrigin ||
+      modalSrc !== this.props.modalSrc ||
       forceRedirect !== this.props.forceRedirect ||
       debug !== this.props.debug
     ) {
@@ -71,6 +75,7 @@ export default class AppProvider extends React.Component<Props> {
         linkComponent,
         apiKey,
         shopOrigin,
+        modalSrc,
         forceRedirect,
         debug,
         stickyManager,

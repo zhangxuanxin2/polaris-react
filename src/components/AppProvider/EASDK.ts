@@ -10,6 +10,8 @@ export interface Options {
   apiKey: string;
   /** The current shop’s origin, provided in the session from the Shopify API */
   shopOrigin: string;
+  /** The application URL to be reserved for modal contents */
+  modalSrc?: string;
   /** Forces a redirect to the relative admin path when not rendered in an iframe */
   forceRedirect?: boolean;
   /**  Metadata for the embedded app */
@@ -29,12 +31,17 @@ interface InitData {
   };
 }
 
+interface ModalOnOpen {
+  frameName: string;
+}
+
 interface ModalOnClose {
   result: boolean;
   data?: object;
 }
 
 export default class EASDK {
+  modalSrc?: string;
   currentUser?: User;
   Bar: Bar;
   Modal: Modal;
@@ -43,7 +50,7 @@ export default class EASDK {
   private messenger: Messenger;
 
   constructor(
-    {apiKey, shopOrigin, debug, forceRedirect}: Options,
+    {apiKey, shopOrigin, modalSrc, debug, forceRedirect}: Options,
     metadata: object,
   ) {
     checkFrameRedirect(apiKey, shopOrigin, forceRedirect);
@@ -59,6 +66,9 @@ export default class EASDK {
         'Shopify.API.Modal.close': ({result, data}: ModalOnClose) => {
           this.Modal.callCloseCallback(result, data);
         },
+        'Shopify.API.Modal.frameLoaded': ({frameName}: ModalOnOpen) => {
+          this.Modal.callFrameLoadedCallback(frameName);
+        },
       },
       {
         name: 'iframe',
@@ -67,6 +77,7 @@ export default class EASDK {
       },
     );
 
+    this.modalSrc = modalSrc;
     this.Bar = new Bar(this.messenger);
     this.Modal = new Modal(this.messenger);
     this.ResourcePicker = new ResourcePicker(this.messenger, this.Modal);

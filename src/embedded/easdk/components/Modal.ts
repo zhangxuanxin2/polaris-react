@@ -2,6 +2,10 @@ import Messenger from '../Messenger';
 import {transformAction} from '../transformers';
 import {EASDKAction} from '../../../types';
 
+export interface FrameLoadedCallback {
+  (modalFrame?: Window): void;
+}
+
 export interface CloseCallback {
   (result?: boolean, data?: any): void;
 }
@@ -13,6 +17,7 @@ export interface OpenConfig {
   height?: number;
   primaryAction?: EASDKAction;
   secondaryActions?: EASDKAction[];
+  onFrameLoaded?(): void;
   onClose?(): void;
 }
 
@@ -27,6 +32,7 @@ export interface AlertConfig {
 }
 
 export default class Modal {
+  private frameLoadedCallback: FrameLoadedCallback | undefined;
   private closeCallback: CloseCallback | undefined;
 
   constructor(private messenger: Messenger) {}
@@ -40,7 +46,12 @@ export default class Modal {
       width,
       height,
       onClose,
+      onFrameLoaded,
     } = config;
+    if (onFrameLoaded != null) {
+      this.storeFrameLoadedCallback(onFrameLoaded);
+    }
+
     if (onClose != null) {
       this.storeCloseCallback(onClose);
     }
@@ -115,6 +126,24 @@ export default class Modal {
     });
   }
 
+  storeFrameLoadedCallback(callback: FrameLoadedCallback) {
+    this.frameLoadedCallback = callback;
+  }
+
+  callFrameLoadedCallback(frameName?: string) {
+    const {frameLoadedCallback} = this;
+
+    if (!frameName) {
+      return;
+    }
+
+    const modalFrame = findRemoteFrame(frameName);
+    if (typeof frameLoadedCallback === 'function' && modalFrame) {
+      delete this.frameLoadedCallback;
+      frameLoadedCallback(modalFrame);
+    }
+  }
+
   storeCloseCallback(callback: CloseCallback) {
     this.closeCallback = callback;
   }
@@ -126,4 +155,28 @@ export default class Modal {
       closeCallback(result, data);
     }
   }
+}
+
+interface FrameList extends Window {
+  [index: number]: Window;
+}
+
+function findRemoteFrame(name: string): Window | null {
+  if (window.parent) {
+    const frames = window.parent.frames as FrameList;
+
+    for (let i = 0; i < frames.length; i++) {
+      const frame = frames[i];
+
+      try {
+        if (frame.name === name) {
+          return frame;
+        }
+      } catch (_) {
+        // no-op
+      }
+    }
+  }
+
+  return null;
 }

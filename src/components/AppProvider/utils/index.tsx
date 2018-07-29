@@ -154,6 +154,7 @@ export function createPolarisContext({
   linkComponent,
   apiKey,
   shopOrigin,
+  modalSrc,
   forceRedirect,
   debug,
   stickyManager,
@@ -166,6 +167,7 @@ export function createPolarisContext({
           {
             apiKey,
             shopOrigin,
+            modalSrc,
             forceRedirect,
             debug,
           },
