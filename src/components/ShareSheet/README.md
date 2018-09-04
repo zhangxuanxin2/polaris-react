@@ -26,8 +26,8 @@ Use share sheet to provide an easy way for merchants to share information from c
 
 Share sheets should:
 
-- Use the share sheets provided by the OS (operating system).
-- Use relevant actions to the context. For example, if you're looking at an image provide an action like saving image, not actions like "add to read list".
+- Use the share sheets provided by the operating system (OS).
+- Use relevant actions to the context. For example, if you're looking at an image provide an action like saving image, not actions like “add to read list”.
 - Dismiss share sheet when the merchant has completed their action.
 - Trigger the share sheet from familiar [icons](components/images-and-icons/icon).
 
@@ -70,7 +70,7 @@ Share sheets should:
 
 ### Default share sheet
 
-Use for regular share action, specify what context and intent you have to get relevant apps and actions.
+Use for regular share action. Specify the context to get relevant apps and actions (depending on context (image, text, mixed media) you'll get different actions).
 
 <!-- content-for: android -->
 
@@ -89,4 +89,4 @@ Use for regular share action, specify what context and intent you have to get re
 ## Related components
 
 - The action to trigger the share sheet is often a [button](components/actions/button) or placed inside a [popover](components/overlays/popover).
-- If there's a single primary action, a [modal](components/overlays/modal) will be clearer and more actionable.
+- If there’s a single primary action, a [modal](components/overlays/modal) could be used to show primary action. For example, copy link.
