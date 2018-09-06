@@ -39,14 +39,14 @@ Share sheets should:
 
 - Descriptive: Help merchants understand what they’ll find in the card
 - Concise and scannable:
-  - Use short titles, they might get truncated. Put the most important content first
-  - Use simple, clear language that can be read at a glance
+  - Use short titles since they might get truncated. Put the most important content first.
+  - Use simple, clear language that can be read at a glance.
   - Keep titles to single sentence and avoid using punctuation such as
-    periods, commas, or semicolons
+    periods, commas, or semicolons.
   - Where possible, avoid articles (the, a, an) to keep content short and
-    actionable
-  - Written in sentence case
-- Informative: They should label the type of content grouped in the body content below
+    actionable.
+  - Written in sentence case.
+- Informative: They should label the type of content grouped in the body content below.
 
 <!-- usagelist -->
 
