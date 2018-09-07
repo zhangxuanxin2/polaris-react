@@ -70,7 +70,7 @@ Share sheets should:
 
 ### Default share sheet
 
-Use for regular share action. Specify the context to get relevant apps and actions (depending on context (image, text, mixed media) you'll get different actions).
+Use for sharing many types of content. For example images, text, links, phone numbers, emails, and mixed media. The share sheet will show different relevant apps depending on the content.
 
 <!-- content-for: android -->
 
@@ -89,4 +89,4 @@ Use for regular share action. Specify the context to get relevant apps and actio
 ## Related components
 
 - The action to trigger the share sheet is often a [button](components/actions/button) or placed inside a [popover](components/overlays/popover).
-- If there’s a single primary action, a [modal](components/overlays/modal) could be used to show primary action. For example, copy link.
+- If there is only one sharing options, consider showing a more customized interface instead of a share sheet. For example, to share a link, show a [modal](components/overlays/modal) dialog containing the link text and a way to copy the link.
