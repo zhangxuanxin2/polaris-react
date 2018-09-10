@@ -89,4 +89,4 @@ Use for sharing many types of content. For example images, text, links, phone nu
 ## Related components
 
 - The action to trigger the share sheet is often a [button](components/actions/button) or placed inside a [popover](components/overlays/popover).
-- If there is only one sharing options, consider showing a more customized interface instead of a share sheet. For example, to share a link, show a [modal](components/overlays/modal) dialog containing the link text and a way to copy the link.
+- If there is only one sharing option, consider showing a more customized interface instead of a share sheet. For example, to share a link, show a [modal](components/overlays/modal) dialog containing the link text and a way to copy the link.
