@@ -65,6 +65,7 @@
 
 .Backdrop {
   @include control-backdrop;
+  @include a11y-small-border;
   position: absolute;
   top: 0;
   bottom: 0;

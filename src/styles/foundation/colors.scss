@@ -26,6 +26,43 @@ $color-palette-data: map-extend(
   )
 );
 
+// Add a11y contrast colors to the palette
+$color-palette-data: map-extend(
+  $color-palette-data,
+  (
+    'a11y-contrast': (
+      'small-border': #859098,
+      'large-border': rgba(#2F3F4D, 0.35),
+      'large-shadow': rgba(#0A2033, 0.23),
+      'button-bottom-gradient': #FAFBFC,
+    ),
+  )
+);
+
+@mixin a11y-small-border {
+  border: solid 1px color('a11y-contrast', 'small-border');
+}
+
+@mixin a11y-large-border {
+  border: solid 1px color('a11y-contrast', 'large-border');
+}
+
+@mixin a11y-button-shadow {
+  box-shadow: 0 0.075rem 0 color('a11y-contrast', 'large-shadow');
+}
+
+@mixin a11y-text-field-shadow {
+  box-shadow: inset 0 0.075rem 0 color('a11y-contrast', 'large-shadow');
+}
+
+@mixin a11y-button-background {
+  background: linear-gradient(
+    to bottom,
+    color('white'),
+    color('a11y-contrast', 'button-bottom-gradient')
+  );
+}
+
 /// Returns the color value for a given color name and group.
 ///
 /// @param {String} $hue - The color’s hue.

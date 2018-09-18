@@ -11,13 +11,10 @@
   min-width: $min-height;
   margin: 0;
   padding: $vertical-padding spacing();
-  background: linear-gradient(
-    to bottom,
-    color('white'),
-    color('sky', 'lighter')
-  );
   border: border(dark);
-  box-shadow: shadow(faint);
+  @include a11y-button-background;
+  @include a11y-large-border;
+  @include a11y-button-shadow;
   border-radius: border-radius();
   line-height: 1;
   color: color('ink');

@@ -96,6 +96,12 @@ $stacking-order: (
   bottom: 0;
   left: 0;
   right: 0;
+  @include a11y-large-border;
+  @include a11y-button-shadow;
+
+  &:after {
+    @include a11y-button-background;
+  }
 }
 
 .Input {

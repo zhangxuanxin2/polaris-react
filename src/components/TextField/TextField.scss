@@ -91,7 +91,8 @@ $stacking-order: (
   margin: 0;
   padding: control-vertical-padding() $backdrop-horizontal-spacing;
   background: none;
-  border: border(transparent);
+  @include a11y-large-border;
+  @include a11y-text-field-shadow;
   font-family: inherit;
   font-size: inherit;
   font-weight: inherit;
