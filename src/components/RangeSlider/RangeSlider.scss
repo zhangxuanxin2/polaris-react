@@ -53,6 +53,7 @@ $range-thumb-shadow-focus: 0 0 0 rem(1px) color('indigo');
   position: relative;
   z-index: z-index('input', $stacking-order);
   flex: 1 1 auto;
+  border: 1px solid transparent;
 
   @include range-track-selectors {
     cursor: pointer;
