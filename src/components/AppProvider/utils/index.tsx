@@ -98,15 +98,15 @@ export function withAppProvider<OwnProps>() {
   };
 }
 
-export function withSticky() {
-  return function addStickyManager<OwnProps, C>(
+export function withSticky<OwnProps>() {
+  return function addStickyManager<C>(
     WrappedComponent:
       | React.ComponentClass<OwnProps & WithAppProviderProps> & C
       | React.SFC<OwnProps & WithAppProviderProps> & C,
-  ): any & C {
+  ): React.ComponentClass<OwnProps> & C {
     class WithStickyManager extends React.Component<
-      {},
-      OwnProps & WithAppProviderProps
+      OwnProps & WithAppProviderProps,
+      never
     > {
       static childContextTypes = polarisAppProviderContextTypes;
       static contextTypes = WrappedComponent.contextTypes
@@ -145,7 +145,7 @@ export function withSticky() {
       WithStickyManager,
       WrappedComponent as React.ComponentClass<any>,
     );
-    return FinalComponent as React.ComponentClass<any> & C;
+    return FinalComponent as React.ComponentClass<OwnProps> & C;
   };
 }
 

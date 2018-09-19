@@ -249,4 +249,4 @@ function prefersReducedMotion() {
   }
 }
 
-export default withSticky()(Scrollable);
+export default withSticky<Props>()(Scrollable);
