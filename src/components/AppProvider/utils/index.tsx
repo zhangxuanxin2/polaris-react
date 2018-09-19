@@ -104,10 +104,7 @@ export function withSticky<OwnProps>() {
       | React.ComponentClass<OwnProps & WithAppProviderProps> & C
       | React.SFC<OwnProps & WithAppProviderProps> & C,
   ): React.ComponentClass<OwnProps> & C {
-    class WithStickyManager extends React.Component<
-      OwnProps & WithAppProviderProps,
-      never
-    > {
+    class WithStickyManager extends React.Component<OwnProps, never> {
       static childContextTypes = polarisAppProviderContextTypes;
       static contextTypes = WrappedComponent.contextTypes
         ? merge(WrappedComponent.contextTypes, polarisAppProviderContextTypes)
