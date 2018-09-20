@@ -12,9 +12,6 @@
   margin: 0;
   padding: $vertical-padding spacing();
   border: border(dark);
-  @include a11y-button-background;
-  @include a11y-large-border;
-  @include a11y-button-shadow;
   border-radius: border-radius();
   line-height: 1;
   color: color('ink');
@@ -25,6 +22,15 @@
   transition-property: background, border, box-shadow;
   transition-duration: duration();
   transition-timing-function: easing();
+
+  @include a11y-button-shadow;
+  @include a11y-button-border;
+  @include a11y-button-background;
+
+  &:after {
+    content: '';
+    @include a11y-button-border-accent;
+  }
 
   &:hover {
     background: linear-gradient(

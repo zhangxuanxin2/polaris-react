@@ -89,18 +89,22 @@ $stacking-order: (
 }
 
 .Backdrop {
-  @include control-backdrop;
   position: absolute;
   z-index: z-index(backdrop, $stacking-order);
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  @include a11y-large-border;
+  border-radius: 3px;
+
+  @include a11y-button-background;
+  @include a11y-button-border;
   @include a11y-button-shadow;
 
-  &:after {
-    @include a11y-button-background;
+  &:before {
+    content: '';
+    @include a11y-button-border-accent;
+    z-index: 1;
   }
 }
 

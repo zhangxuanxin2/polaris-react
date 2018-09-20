@@ -26,41 +26,61 @@ $color-palette-data: map-extend(
   )
 );
 
-// Add a11y contrast colors to the palette
-$color-palette-data: map-extend(
-  $color-palette-data,
-  (
-    'a11y-contrast': (
-      'small-border': #859098,
-      'large-border': rgba(#2F3F4D, 0.35),
-      'large-shadow': rgba(#0A2033, 0.23),
-      'button-bottom-gradient': #FAFBFC,
-    ),
-  )
-);
+$a11y-ink-accent: rgba(22, 29, 37, 0.05);
+$a11y-ink-accent-darker: rgba(22, 29, 37, 0.1);
+$a11y-ink: rgba(10, 32, 51, 0.26);
+$a11y-ink-lighter: #859098;
+$a11y-ink-lightest: rgba(47, 63, 77, 0.35);
 
-@mixin a11y-small-border {
-  border: solid 1px color('a11y-contrast', 'small-border');
-}
-
-@mixin a11y-large-border {
-  border: solid 1px color('a11y-contrast', 'large-border');
+@mixin a11y-button-border {
+  border: solid 1px $a11y-ink-lightest;
 }
 
 @mixin a11y-button-shadow {
-  box-shadow: 0 0.075rem 0 color('a11y-contrast', 'large-shadow');
+  box-shadow: 0 1px 0 $a11y-ink-accent;
 }
 
-@mixin a11y-text-field-shadow {
-  box-shadow: inset 0 0.075rem 0 color('a11y-contrast', 'large-shadow');
+@mixin a11y-button-border-accent {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: -1px;
+  border-radius: 3px;
+  border-bottom: solid 1px $a11y-ink;
 }
 
 @mixin a11y-button-background {
   background: linear-gradient(
     to bottom,
     color('white'),
-    color('a11y-contrast', 'button-bottom-gradient')
+    #FAFBFC
   );
+}
+
+@mixin a11y-textfield-border {
+  border: solid 1px $a11y-ink-lightest;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    right: 0;
+    left: 0;
+    bottom: -1px;
+    border-radius: 3px;
+    border-top: solid 1px $a11y-ink;
+  }
+}
+
+@mixin a11y-control-backdrop {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  border: solid 1px $a11y-ink-lighter;
 }
 
 /// Returns the color value for a given color name and group.
