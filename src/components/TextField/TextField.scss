@@ -143,12 +143,23 @@ $stacking-order: (
   left: 0;
   right: 0;
   background: color('white');
-  @include a11y-textfield-border;
+  border: solid 1px $a11y-ink-lightest;
   border-radius: border-radius();
   will-change: box-shadow, border-color;
   transition-property: box-shadow, border-color;
   transition-duration: duration();
   transition-timing-function: easing();
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    right: 0;
+    left: 0;
+    bottom: -1px;
+    border-radius: border-radius();
+    border-top: solid 1px $a11y-ink;
+  }
 }
 
 .Prefix {
