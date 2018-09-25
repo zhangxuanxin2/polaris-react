@@ -13,7 +13,7 @@
     top: 0;
     right: 0;
     left: 0;
-    bottom: -1px;
+    bottom: -#{border-width()};
     z-index: 1;
     border-radius: border-radius();
     border-bottom: solid 1px $a11y-ink;

@@ -153,10 +153,10 @@ $stacking-order: (
   &::before {
     content: '';
     position: absolute;
-    top: -1px;
+    top: -#{border-width()};
     right: 0;
     left: 0;
-    bottom: -1px;
+    bottom: -#{border-width()};
     border-radius: border-radius();
     border-top: solid 1px $a11y-ink;
   }
