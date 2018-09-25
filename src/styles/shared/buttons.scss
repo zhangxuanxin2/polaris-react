@@ -16,7 +16,7 @@
     bottom: -#{border-width()};
     z-index: 1;
     border-radius: border-radius();
-    border-bottom: solid 1px $a11y-ink;
+    border-bottom: solid border-width() $a11y-ink;
   }
 }
 
