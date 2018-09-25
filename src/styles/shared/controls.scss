@@ -17,7 +17,7 @@
 @mixin control-backdrop($style: base) {
   @if $style == base {
     background-color: color('sky', 'dark');
-    border: solid 1px $a11y-ink-lighter;
+    border: solid border-width() $a11y-ink-lighter;
     box-shadow: 0 0 0 1px transparent, shadow(faint);
     border-radius: border-radius();
     transition-property: box-shadow, background-color;

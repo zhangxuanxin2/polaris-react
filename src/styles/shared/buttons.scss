@@ -1,5 +1,5 @@
 @mixin button-backdrop {
-  border: solid 1px $a11y-ink-lightest;
+  border: solid border-width() $a11y-ink-lightest;
   box-shadow: 0 1px 0 $a11y-ink-accent;
   background: linear-gradient(
     to bottom,
