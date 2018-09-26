@@ -7,11 +7,6 @@ Use [the changelog guidelines](https://git.io/polaris-changelog-guidelines) to f
 ### Enhancments
 
 - Improved the contrast on form controls ([#2267](https://github.com/Shopify/polaris-react/pull/2267))
-- Changed `placeholder` prop in `Select` to be the default selection ([#2115](https://github.com/Shopify/polaris-react/pull/2115))
-
-### Documentation
-
-- Clarified when and how to use icons in the banner component ([#2106](https://github.com/Shopify/polaris-react/pull/2106))
 - Update example description in `ExceptionList` documentation ([#2277](https://github.com/Shopify/polaris-react/pull/2277))
 
 ### Bug fixes
