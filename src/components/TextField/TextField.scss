@@ -143,7 +143,7 @@ $stacking-order: (
   left: 0;
   right: 0;
   background: color('white');
-  border: solid border-width() $a11y-ink-lightest;
+  border: solid border-width() color('a11y', 'ink-lightest');
   border-radius: border-radius();
   will-change: box-shadow, border-color;
   transition-property: box-shadow, border-color;
@@ -158,7 +158,7 @@ $stacking-order: (
     left: 0;
     bottom: -#{border-width()};
     border-radius: border-radius();
-    border-top: solid border-width() $a11y-ink;
+    border-top: solid border-width() color('a11y', 'ink');
   }
 }
 

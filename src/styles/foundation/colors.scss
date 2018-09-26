@@ -26,12 +26,20 @@ $color-palette-data: map-extend(
   )
 );
 
-$a11y-ink-accent: rgba(22, 29, 37, 0.05);
-$a11y-ink-accent-darker: rgba(22, 29, 37, 0.1);
-$a11y-ink: rgba(10, 32, 51, 0.26);
-$a11y-ink-lighter: #859098;
-$a11y-ink-lightest: rgba(47, 63, 77, 0.35);
-$a11y-color-near-white: #fafbfc;
+// Add a11y colors to the palette
+$color-palette-data: map-extend(
+  $color-palette-data,
+  (
+    'a11y': (
+      'ink-accent': rgba(22, 29, 37, 0.05),
+      'ink-accent-darker': rgba(22, 29, 37, 0.1),
+      'ink': rgba(10, 32, 51, 0.26),
+      'ink-lighter': rgba(133, 144, 152, 1),
+      'ink-lightest': rgba(47, 63, 77, 0.35),
+      'color-near-white': rgba(250, 251, 252, 1),
+    ),
+  )
+);
 
 /// Returns the color value for a given color name and group.
 ///

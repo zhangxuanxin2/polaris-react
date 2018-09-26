@@ -17,7 +17,7 @@
 @mixin control-backdrop($style: base) {
   @if $style == base {
     background-color: color('sky', 'dark');
-    border: solid border-width() $a11y-ink-lighter;
+    border: solid border-width() color('a11y', 'ink-lighter');
     box-shadow: 0 0 0 1px transparent, shadow(faint);
     border-radius: border-radius();
     transition-property: box-shadow, background-color;
@@ -33,7 +33,7 @@
       right: 0;
       display: block;
       background: white;
-      box-shadow: inset 0 1px 0 $a11y-ink-accent-darker;
+      box-shadow: inset 0 1px 0 color('a11y', 'ink-accent-darker');
       border-radius: border-radius() - 1px;
     }
 

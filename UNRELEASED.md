@@ -6,6 +6,7 @@ Use [the changelog guidelines](https://git.io/polaris-changelog-guidelines) to f
 
 ### Enhancements
 
+- Improved the contrast on form controls ([#2267](https://github.com/Shopify/polaris-react/pull/2267))
 - Changed `placeholder` prop in `Select` to be the default selection ([#2115](https://github.com/Shopify/polaris-react/pull/2115))
 
 ### Documentation
