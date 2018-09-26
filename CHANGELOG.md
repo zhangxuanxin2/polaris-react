@@ -8,6 +8,45 @@ The format is based on [these versioning and changelog guidelines](https://git.i
 
 ---
 
+## 2.10.0 - 2018-09-18
+
+### Enhancements
+
+- Updated `Button` to accept a `React.ReactNode` for its `icon` prop ([#2245](https://github.com/Shopify/polaris-react/pull/2245))
+
+### Documentation
+
+- Refined accessibility checklist ([#2235](https://github.com/Shopify/polaris-react/pull/2235))
+
+### Bug Fixes
+
+- Added truncation to `Tag` ([#2230](https://github.com/Shopify/polaris-react/pull/2230))
+
+## 2.9.0 - 2018-09-10
+
+### Enhancements
+
+- Updated date filter labels in resource list ([#2185](https://github.com/Shopify/polaris-react/pull/2185))
+- Changed `placeholder` prop in `Select` to be the default selection ([#2115](https://github.com/Shopify/polaris-react/pull/2115))
+- Added a `loading` prop to `ResourceList` that places a spinner overtop items and disables bulk actions ([#1922](https://github.com/Shopify/polaris-react/pull/1922))
+
+### Documentation
+
+- Clarified when and how to use icons in the banner component ([#2106](https://github.com/Shopify/polaris-react/pull/2106))
+- Updated footer help component guidelines to include content instructions for app developers ([#2023](https://github.com/Shopify/polaris-react/pull/2023#pullrequestreview-150272766))
+
+### Bug fixes
+
+- Fixed resource list component to correctly handle inclusive filter keys ([#2189](https://github.com/Shopify/polaris-react/pull/2189))
+- Fixed date field in DateSelector to not render an error when date is added by the date picker and field is blurred ([#2180](https://github.com/Shopify/polaris-react/pull/2180))
+- Fixed pagination from firing keypress events while focus is inside inputs or contenteditables ([#1900](https://github.com/Shopify/polaris-react/pull/1900))
+- Fixed `EmptyState` horizontally scrolling when fully condensed ([#2062](https://github.com/Shopify/polaris-react/pull/2062))
+- Fixed the bottom margin of elements inside `Page` being ignored in some browsers ([#2142](https://github.com/Shopify/polaris-react/pull/2142))
+- Added required `url` prop to `breadcrumbs` in `Page` component examples ([#2182](https://github.com/Shopify/polaris-react/pull/2182))
+- Fixed `ActionList` wrapping text within a `Popover` ([#2057](https://github.com/Shopify/polaris-react/pull/2057))
+- Fixed `Banner` spacing when inside of a section ([#2188](https://github.com/Shopify/polaris-react/pull/2188))
+- Fixed `Stack` so it doesn't add extra spacing between items in Safari ([#2195](https://github.com/Shopify/polaris-react/pull/2195))
+
 ## 2.8.0 - 2018-08-30
 
 ### Bug fixes
@@ -346,7 +385,7 @@ The resource list component functions as:
 
 - A content format, presenting a set of individual resources in a compact form
 - A system for taking action on one or more individual resources
-- A way to navigate to the show page of an individual resource
+- A way to navigate to the details page of an individual resource
 
 Our current resource list component gave you some nice defaults out of the box, but didn’t take you much further than that. We recognized that each of these lists is unique and contains different information that is important to the merchant.
 
@@ -478,7 +517,7 @@ _This will be the last v1.x release outside of critical security fixes._
 ## 1.12.4 - 2018-03-19
 
 - Enhanced `Avatar` to work better when provided non-square images ([#1124](https://github.com/Shopify/polaris-react/pull/1124))
-- Move documentation file so it’s picked up by the styleguide ([#1162](https://github.com/Shopify/polaris-react/pull/1162))
+- Move documentation file so it’s picked up by the style guide ([#1162](https://github.com/Shopify/polaris-react/pull/1162))
 
 ## 1.12.3 - 2018-03-16
 

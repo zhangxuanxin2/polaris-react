@@ -48,13 +48,13 @@ export default class Playground extends React.Component<never, State> {
   render() {
     return (
       <AppProvider>
-        <Page title="Playground" />
+        <Page title="Playground">
+          {/* Add the code you want to test here */}
+        </Page>
       </AppProvider>
     );
   }
 }
-
-/* eslint-enable */
 ```
 
 </details>
@@ -63,7 +63,7 @@ export default class Playground extends React.Component<never, State> {
 
 * [ ] Tested on mobile
 * [ ] Tested on multiple browsers
-* [ ] Tested for [accessibility](https://vault.shopify.com/Accessibility#implementation-best-practices)
+* [ ] Tested for [accessibility](https://github.com/Shopify/polaris-react/blob/master/documentation/Accessibility%20testing.md)
 * [ ] Updated [UNRELEASED.md](https://github.com/Shopify/polaris-react/blob/master/UNRELEASED.md)
 
 <!--
