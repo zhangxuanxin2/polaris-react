@@ -8,6 +8,50 @@ The format is based on [these versioning and changelog guidelines](https://git.i
 
 ---
 
+## 2.11.0 - 2018-10-03
+
+### Enhancements
+
+- `Tab.Item` with a `url` prop now renders an `UnstyledLink` instead of a `Button` when displayed in `Popover` and you can now keyboard navigate the disclosure in `Tabs`
+- Refs can be placed on `DropZone.FileUpload`
+- Use the new context API in `ResourceList`
+- Use the new context API in `DropZone`
+- Update example description in `ExceptionList` documentation
+- Move Modal CloseButton into its own subcomponent, instead of being part of the Header subcomponent. This is an internal implementation detail if you are using the React component. If you are using (s)css and are defining class names manually you will need to update references to `Polaris-Modal-Header__CloseButton` and `Polaris-Modal-Header--withoutTitle` to `Polaris-Modal-CloseButton` and `Polaris-Modal-CloseButton--withoutTitle` respectively.
+
+### Development workflow
+
+- Added `d.ts` files to test coverage ignore
+- `Page` is no longer self-closing in the playground
+
+### Bug fixes
+
+- Fixed `Button` alignment issue caused by unnecessary icon markup rendering ([#2339](Fixing button alignment #2339)) (thanks to ([@mbaumbach](https://github.com/mbaumbach)) for the ([original issue](https://github.com/Shopify/polaris/issues/429)))
+- Fixed console error and used new ref syntax in `DataTable` (thanks to ([@duythien0912](https://github.com/duythien0912)) for the ([original issue](https://github.com/Shopify/polaris/issues/403)))
+- Fixed margin of `InlineError` text to align with the `ChoiceList` labels
+- Replaced hardcoded `rem` values with globally scalable ones on `DataTable`’s collapsed shadow, and `TextStyle` code blocks
+- Fixed spacing of numbered `List` for double digits ([#121](https://github.com/Shopify/polaris-ux/issues/121))
+- Fixed `ProgressBar` not showing up in Windows high contrast mode
+- Top aligned all cells in `DataTable`
+- Fixed stacking order of loading overlay in `ResourceList`
+- Fixed form inputs in `Popover` that were disappearing instead of top aligning thanks to [@mbaumbach](https://github.com/mbaumbach) for the [original issue](https://github.com/Shopify/polaris/issues/435)
+- Removed a redundant class on `OptionList` list items
+
+### Documentation
+
+- Made `Modal` examples show the modal dialog by default
+- Changed fitted `Tabs` to have equal width when enough space is present
+
+### New components
+
+#### withContext
+
+Use `withContext` to pass consumer context to a component.
+
+#### withRef
+
+Use `withRef` with `compose` to forwardRefs to a component.
+
 ## 2.10.0 - 2018-09-18
 
 ### Enhancements
@@ -385,7 +429,7 @@ The resource list component functions as:
 
 - A content format, presenting a set of individual resources in a compact form
 - A system for taking action on one or more individual resources
-- A way to navigate to the show page of an individual resource
+- A way to navigate to the details page of an individual resource
 
 Our current resource list component gave you some nice defaults out of the box, but didn’t take you much further than that. We recognized that each of these lists is unique and contains different information that is important to the merchant.
 
@@ -517,7 +561,7 @@ _This will be the last v1.x release outside of critical security fixes._
 ## 1.12.4 - 2018-03-19
 
 - Enhanced `Avatar` to work better when provided non-square images
-- Move documentation file so it’s picked up by the styleguide
+- Move documentation file so it’s picked up by the style guide
 
 ## 1.12.3 - 2018-03-16
 
