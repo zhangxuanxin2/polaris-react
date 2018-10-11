@@ -8,6 +8,30 @@ The format is based on [these versioning and changelog guidelines](https://git.i
 
 ---
 
+## 2.12.0 - 2018-10-11
+
+### Enhancements
+
+- Removed tip from `Popover`
+- Increased speed of `Popover` transition from 500ms to 100ms
+- Improved text contrast in `Badge`.
+- Added named `medium` size to Button that renders the same as omiting the size attribute
+
+### Bug fixes
+
+- Fixed typo in `Collapsible` example
+- Fixed padding and margins on `SkeletonPage` to match `Page`
+- Fixed spacing between `Page` title and metadata
+
+### Documentation
+
+- Made ActionList, OptionList and Popover examples active by default so previews are visible without interacting
+- Improved the manual accessibility checklist
+
+### Development workflow
+
+- Batched Percy snapshots per component
+
 ## 2.11.0 - 2018-10-03
 
 ### Enhancements
