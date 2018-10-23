@@ -61,6 +61,14 @@ class AutocompleteExample extends React.Component {
           options={this.state.options}
           selected={this.state.selected}
           onSelect={this.updateSelection}
+          renderEmptyState={
+            <React.Fragment>
+              <Icon source="search" />
+              <div style={{textAlign: 'center'}}>
+                <TextContainer>Could not find any results</TextContainer>
+              </div>
+            </React.Fragment>
+          }
           textField={
             <Autocomplete.TextField
               onChange={this.updateText}
@@ -149,6 +157,14 @@ class MultiAutocompleteExample extends React.Component {
             />
           }
           onSelect={this.updateSelection}
+          renderEmptyState={
+            <React.Fragment>
+              <Icon source="search" />
+              <div style={{textAlign: 'center'}}>
+                <TextContainer>Could not find any results</TextContainer>
+              </div>
+            </React.Fragment>
+          }
           listTitle="Suggested Tags"
         />
       </div>
@@ -244,6 +260,14 @@ class AutocompleteExample extends React.Component {
           options={this.state.options}
           selected={this.state.selected}
           onSelect={this.updateSelection}
+          renderEmptyState={
+            <React.Fragment>
+              <Icon source="search" />
+              <div style={{textAlign: 'center'}}>
+                <TextContainer>Could not find any results</TextContainer>
+              </div>
+            </React.Fragment>
+          }
           loading={this.state.loading}
           textField={
             <Autocomplete.TextField

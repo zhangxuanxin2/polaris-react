@@ -499,6 +499,89 @@ describe('<ComboBox/>', () => {
       };
     });
   });
+
+  describe('empty state', () => {
+    const EmptyState = () => <div>No results</div>;
+
+    it('renders an empty state when no options are passed in', () => {
+      const comboBox = mountWithAppProvider(
+        <ComboBox
+          options={[]}
+          selected={[]}
+          textField={renderTextField()}
+          onSelect={noop}
+          emptyState={<EmptyState />}
+        />,
+      );
+
+      comboBox.simulate('click');
+      expect(comboBox.find(EmptyState).exists()).toBe(true);
+    });
+
+    it('does not render empty state if actionsBefore exist', () => {
+      const comboBox = mountWithAppProvider(
+        <ComboBox
+          options={[]}
+          selected={[]}
+          textField={renderTextField()}
+          onSelect={noop}
+          actionsBefore={[{image: '../image/path', role: 'option'}]}
+          emptyState={<EmptyState />}
+        />,
+      );
+
+      comboBox.simulate('click');
+      expect(comboBox.find(EmptyState).exists()).toBe(false);
+    });
+
+    it('does not render empty state if actionsAfter exist', () => {
+      const comboBox = mountWithAppProvider(
+        <ComboBox
+          options={[]}
+          selected={[]}
+          textField={renderTextField()}
+          onSelect={noop}
+          actionsAfter={[{image: '../image/path', role: 'option'}]}
+          emptyState={<EmptyState />}
+        />,
+      );
+
+      comboBox.simulate('click');
+      expect(comboBox.find(EmptyState).exists()).toBe(false);
+    });
+
+    it('does not render empty state if contentAfter exist', () => {
+      const comboBox = mountWithAppProvider(
+        <ComboBox
+          options={[]}
+          selected={[]}
+          textField={renderTextField()}
+          onSelect={noop}
+          contentAfter={<div>Content after</div>}
+          emptyState={<EmptyState />}
+        />,
+      );
+
+      comboBox.simulate('click');
+      expect(comboBox.find(EmptyState).exists()).toBe(false);
+    });
+
+    it('does not render empty state if contentBefore exist', () => {
+      const comboBox = mountWithAppProvider(
+        <ComboBox
+          options={[]}
+          selected={[]}
+          textField={renderTextField()}
+          onSelect={noop}
+          contentBefore={<div>Content before</div>}
+          emptyState={<EmptyState />}
+        />,
+      );
+
+      comboBox.simulate('click');
+      expect(comboBox.find(EmptyState).exists()).toBe(false);
+    });
+  });
 });
 
 function renderTextField() {
