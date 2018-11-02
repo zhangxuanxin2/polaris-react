@@ -241,7 +241,7 @@ export default class ComboBox extends React.PureComponent<Props, State> {
       !actionsBefore &&
       !contentAfter &&
       !contentBefore &&
-      options.length === 0 &&
+      !options.length &&
       emptyState && <div className={styles.EmptyState}>{emptyState}</div>;
 
     return (
