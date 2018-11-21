@@ -322,7 +322,16 @@ function isSameSelectedDate(
 }
 
 function deriveRange(selected?: Date | Range) {
-  return selected instanceof Date ? {start: selected, end: selected} : selected;
+  if (selected instanceof Date) {
+    return {start: selected, end: selected};
+  } else if (selected && isSameDay(selected.start, selected.end)) {
+    return {
+      start: selected.start,
+      end: selected.start,
+    };
+  } else {
+    return selected;
+  }
 }
 
 export default withAppProvider<Props>()(DatePicker);

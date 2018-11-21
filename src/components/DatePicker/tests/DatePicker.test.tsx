@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {noop} from '@shopify/javascript-utilities/other';
 import {Weekdays} from '@shopify/javascript-utilities/dates';
-import {mountWithAppProvider} from 'test-utilities';
+import {mountWithAppProvider, trigger} from 'test-utilities';
 import {Day, Month, Weekday} from '../components';
 import DatePicker from '../DatePicker';
 
@@ -176,5 +176,50 @@ describe('<DatePicker />', () => {
         .first()
         .prop('focused'),
     ).toBe(false);
+  });
+
+  describe('with allowRange prop to true', () => {
+    it('range can be created even if start and end have different references', () => {
+      const datepicker = mountWithAppProvider(
+        <DatePicker
+          month={0}
+          year={2018}
+          weekStartsOn={Weekdays.Monday}
+          allowRange
+          selected={{
+            start: new Date('01 Jan 2018 00:00:00 GMT'),
+            end: new Date('01 Jan 2018 00:00:00 GMT'),
+          }}
+        />,
+      );
+      const day = datepicker.find('button[aria-label="January 5 2018"]');
+
+      trigger(day, 'onClick');
+
+      expect(datepicker.find(Day).get(2).props.inHoveringRange).toBeTruthy();
+      expect(datepicker.find(Day).get(3).props.inHoveringRange).toBeTruthy();
+      expect(datepicker.find(Day).get(6).props.inHoveringRange).toBeFalsy();
+    });
+
+    it('range can be created even if start and end have different time in day', () => {
+      const datepicker = mountWithAppProvider(
+        <DatePicker
+          month={0}
+          year={2018}
+          weekStartsOn={Weekdays.Monday}
+          allowRange
+          selected={{
+            start: new Date('01 Jan 2018 00:00:00 GMT'),
+            end: new Date('01 Jan 2018 23:59:59 GMT'),
+          }}
+        />,
+      );
+      const day = datepicker.find('button[aria-label="January 5 2018"]');
+
+      trigger(day, 'onClick');
+      expect(datepicker.find(Day).get(2).props.inHoveringRange).toBeTruthy();
+      expect(datepicker.find(Day).get(3).props.inHoveringRange).toBeTruthy();
+      expect(datepicker.find(Day).get(6).props.inHoveringRange).toBeFalsy();
+    });
   });
 });
