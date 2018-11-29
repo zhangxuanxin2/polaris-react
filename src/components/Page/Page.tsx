@@ -23,6 +23,10 @@ export interface Props extends HeaderProps {
   fullWidth?: boolean;
   /** Decreases the maximum layout width. Intended for single-column layouts */
   singleColumn?: boolean;
+  /** Force render of title and breadcrumbs in page on embedded app, default false */
+  forceRenderTitle?: boolean;
+  /** Force render of page actions in page on embedded app, default false */
+  forceRenderActions?: boolean;
 }
 
 export type ComposedProps = Props & WithAppProviderProps;
@@ -72,7 +76,7 @@ export class Page extends React.PureComponent<ComposedProps, never> {
   }
 
   render() {
-    const {children, fullWidth, singleColumn, ...rest} = this.props;
+    const {children, fullWidth, singleColumn} = this.props;
 
     const className = classNames(
       styles.Page,
@@ -80,11 +84,8 @@ export class Page extends React.PureComponent<ComposedProps, never> {
       singleColumn && styles.singleColumn,
     );
 
-    const headerMarkup =
-      this.props.polaris.appBridge ||
-      this.hasHeaderContent() === false ? null : (
-        <Header {...rest} />
-      );
+    const headerProps = this.headerProps;
+    const headerMarkup = headerProps ? <Header {...headerProps} /> : null;
 
     return (
       <div className={className}>
@@ -94,36 +95,71 @@ export class Page extends React.PureComponent<ComposedProps, never> {
     );
   }
 
-  private hasHeaderContent() {
+  private get headerProps(): HeaderProps | undefined {
     const {
+      children,
+      fullWidth,
+      singleColumn,
+      polaris: {appBridge},
+      forceRenderTitle = false,
+      forceRenderActions = false,
       title,
       primaryAction,
       secondaryActions,
       actionGroups,
       breadcrumbs,
+      ...rest
     } = this.props;
 
-    return (
-      (title != null && title !== '') ||
-      primaryAction != null ||
-      (secondaryActions != null && secondaryActions.length > 0) ||
-      (actionGroups != null && actionGroups.length > 0) ||
-      (breadcrumbs != null && breadcrumbs.length > 0)
-    );
+    const hasHeaderTitle =
+      title != null && title !== '' && (appBridge ? forceRenderTitle : true);
+
+    const hasHeaderActions =
+      (primaryAction != null ||
+        (secondaryActions != null && secondaryActions.length > 0) ||
+        (actionGroups != null && actionGroups.length > 0)) &&
+      (appBridge ? forceRenderActions : true);
+
+    const hasHeaderBreadcrumbs =
+      breadcrumbs != null &&
+      breadcrumbs.length > 0 &&
+      (appBridge ? forceRenderTitle : true);
+
+    if (!hasHeaderTitle && !hasHeaderActions && !hasHeaderBreadcrumbs) {
+      return undefined;
+    }
+
+    return {
+      ...rest,
+      title: hasHeaderTitle ? title : '',
+      primaryAction: hasHeaderActions ? primaryAction : undefined,
+      secondaryActions: hasHeaderActions ? secondaryActions : undefined,
+      actionGroups: hasHeaderActions ? actionGroups : undefined,
+      breadcrumbs: hasHeaderBreadcrumbs ? breadcrumbs : undefined,
+    };
   }
 
   private transformProps(): AppBridgeTitleBar.Options {
     const {appBridge} = this.props.polaris;
-    const {title, primaryAction, secondaryActions, actionGroups} = this.props;
+    const {
+      title,
+      primaryAction,
+      secondaryActions,
+      actionGroups,
+      forceRenderTitle = false,
+      forceRenderActions = false,
+    } = this.props;
 
     return {
-      title,
-      buttons: transformActions(appBridge, {
-        primaryAction,
-        secondaryActions,
-        actionGroups,
-      }),
-      breadcrumbs: this.transformBreadcrumbs(),
+      title: forceRenderTitle ? undefined : title,
+      buttons: forceRenderActions
+        ? undefined
+        : transformActions(appBridge, {
+            primaryAction,
+            secondaryActions,
+            actionGroups,
+          }),
+      breadcrumbs: forceRenderTitle ? undefined : this.transformBreadcrumbs(),
     };
   }
 
