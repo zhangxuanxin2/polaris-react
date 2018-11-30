@@ -62,7 +62,9 @@
     "start": "node ./playground/server.js",
     "heroku-postbuild": "yarn run copy-polaris-tokens && webpack --config ./playground/webpack.config.js --env.production",
     "readme-update-version": "babel-node ./scripts/readme-update-version",
-    "version": "yarn run readme-update-version"
+    "version": "yarn run readme-update-version",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "stylelint": {
     "extends": [
@@ -86,6 +88,11 @@
     "@shopify/js-uploader": "github:shopify/js-uploader",
     "@shopify/react-serialize": "^1.0.6",
     "@shopify/sewing-kit": "0.64.2",
+    "@storybook/addon-actions": "^4.0.9",
+    "@storybook/addon-info": "^4.0.9",
+    "@storybook/addon-links": "^4.0.9",
+    "@storybook/addons": "^4.0.9",
+    "@storybook/react": "^4.0.9",
     "@types/enzyme": "^3.1.14",
     "@types/enzyme-adapter-react-16": "^1.0.3",
     "@types/lodash": "^4.14.108",
@@ -95,6 +102,7 @@
     "@types/react-hot-loader": "^3.0.6",
     "@types/react-router-dom": "^4.2.7",
     "@types/rollup": "0.51.4",
+    "@types/storybook__react": "^4.0.0",
     "archiver": "^2.1.0",
     "aws-sdk": "^2.58.0",
     "babel-cli": "^6.26.0",
@@ -131,6 +139,7 @@
     "postcss-shopify": "^1.0.0",
     "puppeteer": "^1.5.0",
     "react": "^16.4.0",
+    "react-docgen-typescript-webpack-plugin": "^1.1.0",
     "react-dom": "^16.4.0",
     "react-helmet": "^5.2.0",
     "react-router-dom": "^4.3.1",
