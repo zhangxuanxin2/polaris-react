@@ -4,6 +4,7 @@ import {
   addEventListener,
   removeEventListener,
 } from '@shopify/javascript-utilities/events';
+import {isServer} from '@shopify/react-utilities/target';
 import {Key} from '../../types';
 
 export interface Props {
@@ -13,10 +14,12 @@ export interface Props {
 
 export default class KeypressListener extends React.Component<Props, never> {
   componentDidMount() {
+    if (isServer) return;
     addEventListener(document, 'keyup', this.handleKeyEvent);
   }
 
   componentWillUnmount() {
+    if (isServer) return;
     removeEventListener(document, 'keyup', this.handleKeyEvent);
   }
 

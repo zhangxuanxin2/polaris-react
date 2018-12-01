@@ -8,6 +8,7 @@ import {
   removeEventListener,
 } from '@shopify/javascript-utilities/events';
 
+import {isServer} from '@shopify/react-utilities/target';
 import Icon from '../Icon';
 import Stack from '../Stack';
 import Caption from '../Caption';
@@ -301,6 +302,8 @@ export class DropZone extends React.Component<CombinedProps, State> {
   }
 
   componentDidMount() {
+    if (isServer) return;
+
     this.dragTargets = [];
 
     this.setState({error: this.props.error});
@@ -321,9 +324,7 @@ export class DropZone extends React.Component<CombinedProps, State> {
   }
 
   componentWillUnmount() {
-    if (!this.dropNode) {
-      return;
-    }
+    if (!this.dropNode || isServer) return;
 
     removeEventListener(this.dropNode, 'drop', this.handleDrop);
     removeEventListener(this.dropNode, 'dragover', this.handleDragOver);
@@ -409,6 +410,8 @@ export class DropZone extends React.Component<CombinedProps, State> {
 
   @autobind
   private setNode(node: HTMLElement | null) {
+    if (isServer) return;
+
     const {dropOnPage} = this.props;
 
     this.node = node;

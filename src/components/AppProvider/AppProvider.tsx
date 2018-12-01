@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {autobind} from '@shopify/javascript-utilities/decorators';
+import {isServer} from '@shopify/react-utilities/target';
 import ThemeProvider from '../ThemeProvider';
 import {
   StickyManager,
@@ -34,9 +35,8 @@ export default class AppProvider extends React.Component<AppProviderProps> {
   }
 
   componentDidMount() {
-    if (document != null) {
-      this.stickyManager.setContainer(document);
-    }
+    if (isServer) return;
+    this.stickyManager.setContainer(document);
   }
 
   // eslint-disable-next-line react/no-deprecated

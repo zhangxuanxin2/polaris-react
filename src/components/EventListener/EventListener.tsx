@@ -3,6 +3,7 @@ import {
   addEventListener,
   removeEventListener,
 } from '@shopify/javascript-utilities/events';
+import {isServer} from '@shopify/react-utilities/target';
 
 export interface BaseEventProps {
   event: string;
@@ -34,11 +35,13 @@ export default class EventListener extends React.PureComponent<Props, never> {
   }
 
   private attachListener() {
+    if (isServer) return;
     const {event, handler, capture, passive} = this.props;
     addEventListener(window, event, handler, {capture, passive});
   }
 
   private detachListener(prevProps?: BaseEventProps) {
+    if (isServer) return;
     const {event, handler, capture} = prevProps || this.props;
     removeEventListener(window, event, handler, capture);
   }

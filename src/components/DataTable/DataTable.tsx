@@ -3,6 +3,7 @@ import {autobind, debounce} from '@shopify/javascript-utilities/decorators';
 import {classNames} from '@shopify/react-utilities/styles';
 import isEqual from 'lodash/isEqual';
 
+import {isServer} from '@shopify/react-utilities/target';
 import {headerCell} from '../shared';
 import {withAppProvider, WithAppProviderProps} from '../AppProvider';
 import EventListener from '../EventListener';
@@ -274,6 +275,8 @@ export class DataTable extends React.PureComponent<
 
   @autobind
   private resetScrollPosition() {
+    if (isServer) return;
+
     const {
       scrollContainer: {current: scrollContainer},
     } = this;
@@ -486,6 +489,8 @@ export class DataTable extends React.PureComponent<
     }
 
     const handleSort = () => {
+      if (isServer) return;
+
       this.setState(
         {
           sortDirection: newSortDirection,

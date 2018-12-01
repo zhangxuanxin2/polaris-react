@@ -9,6 +9,7 @@ import {createUniqueIDFactory} from '@shopify/javascript-utilities/other';
 import {wrapWithComponent} from '@shopify/react-utilities';
 import {Modal as AppBridgeModal} from '@shopify/app-bridge/actions';
 
+import {isServer} from '@shopify/react-utilities/target';
 import {contentContextTypes} from '../../types';
 import {transformActions} from '../../utilities/app-bridge-transformers';
 
@@ -114,6 +115,8 @@ export class Modal extends React.Component<CombinedProps, State> {
   }
 
   componentDidMount() {
+    if (isServer) return;
+
     if (this.props.polaris.appBridge == null) {
       return;
     }
@@ -137,6 +140,8 @@ export class Modal extends React.Component<CombinedProps, State> {
   }
 
   componentDidUpdate(prevProps: CombinedProps) {
+    if (isServer) return;
+
     if (this.props.polaris.appBridge == null || this.appBridgeModal == null) {
       return;
     }
@@ -320,6 +325,8 @@ export class Modal extends React.Component<CombinedProps, State> {
 
   @autobind
   private handleIFrameLoad(evt: React.SyntheticEvent<HTMLIFrameElement>) {
+    if (isServer) return;
+
     const iframe = evt.target as HTMLIFrameElement;
     if (iframe && iframe.contentWindow) {
       this.setState({

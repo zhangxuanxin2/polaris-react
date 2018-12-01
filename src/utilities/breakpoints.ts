@@ -1,4 +1,5 @@
 import {noop} from '@shopify/javascript-utilities/other';
+import {isServer} from '@shopify/react-utilities/target';
 
 const Breakpoints = {
   navigationBarCollapsed: '769px',
@@ -13,13 +14,13 @@ const noWindowMatches = {
 };
 
 export function navigationBarCollapsed(): MediaQueryList {
-  return typeof window === 'undefined'
+  return isServer
     ? noWindowMatches
     : window.matchMedia(`(max-width: ${Breakpoints.navigationBarCollapsed})`);
 }
 
 export function stackedContent(): MediaQueryList {
-  return typeof window === 'undefined'
+  return isServer
     ? noWindowMatches
     : window.matchMedia(`(max-width: ${Breakpoints.stackedContent})`);
 }

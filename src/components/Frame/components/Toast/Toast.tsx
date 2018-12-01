@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {classNames} from '@shopify/react-utilities';
 
+import {isServer} from '@shopify/react-utilities/target';
 import {Key} from '../../../../types';
 
 import Icon from '../../../Icon';
@@ -47,12 +48,16 @@ export default class Toast extends React.Component<Props, never> {
   }
 
   private clearDismissalTimeout() {
+    if (isServer) return;
+
     if (this.timer) {
       window.clearTimeout(this.timer);
     }
   }
 
   private triggerDismissalTimeout() {
+    if (isServer) return;
+
     const {onDismiss, duration = DEFAULT_TOAST_DURATION} = this.props;
 
     this.clearDismissalTimeout();

@@ -6,6 +6,7 @@ import {
   removeEventListener,
 } from '@shopify/javascript-utilities/events';
 import tokens from '@shopify/polaris-tokens';
+import {isServer} from '@shopify/react-utilities/target';
 import {stackedContent} from '../../../../utilities/breakpoints';
 import {dataPolarisTopBar, scrollable} from '../../../shared';
 
@@ -53,6 +54,8 @@ export default class StickyManager {
   }
 
   setContainer(el: Document | HTMLElement) {
+    if (isServer) return;
+
     this.container = el;
     if (isDocument(el)) {
       this.setTopBarOffset();
@@ -63,6 +66,8 @@ export default class StickyManager {
   }
 
   removeScrollListener() {
+    if (isServer) return;
+
     if (this.container) {
       removeEventListener(this.container, 'scroll', this.handleScroll);
       removeEventListener(window, 'resize', this.handleResize);

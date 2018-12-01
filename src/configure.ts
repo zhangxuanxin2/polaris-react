@@ -1,3 +1,5 @@
+import {isServer} from '@shopify/react-utilities/target';
+
 export interface Polaris {
   VERSION: string;
 }
@@ -8,7 +10,7 @@ declare global {
   }
 }
 
-if (typeof window !== 'undefined') {
+if (!isServer) {
   window.Polaris = window.Polaris || {};
   window.Polaris.VERSION = '{{POLARIS_VERSION}}';
 }

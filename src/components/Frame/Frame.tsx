@@ -2,6 +2,7 @@ import * as React from 'react';
 import {autobind} from '@shopify/javascript-utilities/decorators';
 import {classNames} from '@shopify/react-utilities/styles';
 import {CSSTransition} from 'react-transition-group';
+import {isServer} from '@shopify/react-utilities/target';
 import {navigationBarCollapsed} from '../../utilities/breakpoints';
 import Button from '../Button';
 import Icon from '../Icon';
@@ -409,6 +410,8 @@ const contextualSaveBarTransitionClasses = {
 };
 
 function focusAppFrameMain() {
+  if (isServer) return;
+
   window.location.assign(`${window.location.pathname}#${APP_FRAME_MAIN}`);
 }
 
