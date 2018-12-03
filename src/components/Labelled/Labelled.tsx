@@ -26,6 +26,12 @@ export interface Props {
   children?: React.ReactNode;
   /** Visually hide the label */
   labelHidden?: boolean;
+  /** Character count in the labled input */
+  characterCount?: number;
+  /** Maximum character length for an input */
+  maxLength?: number;
+  /** Indicates whether the character count should be displayed or not */
+  showCharacterCount?: boolean;
 }
 
 export default function Labelled({
@@ -36,6 +42,9 @@ export default function Labelled({
   helpText,
   children,
   labelHidden,
+  characterCount,
+  maxLength,
+  showCharacterCount,
   ...rest
 }: Props) {
   const className = classNames(labelHidden && styles.hidden);
@@ -47,6 +56,17 @@ export default function Labelled({
       {helpText}
     </div>
   ) : null;
+
+  const characterCountMarkup = showCharacterCount &&
+    maxLength && (
+      <span
+        id={`${id}-labeled-character-counter`}
+        className={styles.CharacterCount}
+        aria-live="polite"
+      >
+        {`${characterCount} of ${maxLength} characters used`}
+      </span>
+    );
 
   const errorMarkup = error &&
     typeof error !== 'boolean' && (
@@ -68,6 +88,7 @@ export default function Labelled({
     <div className={className}>
       {labelMarkup}
       {children}
+      {characterCountMarkup}
       {errorMarkup}
       {helpTextMarkup}
     </div>

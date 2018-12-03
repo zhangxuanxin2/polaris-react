@@ -7,6 +7,7 @@ Use [the changelog guidelines](https://git.io/polaris-changelog-guidelines) to f
 ### Enhancements
 
 - Moved icons to a separate npm package ([#686](https://github.com/Shopify/polaris-react/pull/686))
+- `TextField` accepts a `showCharacterCount` prop to enable the display of character count ([#709](https://github.com/Shopify/polaris-react/pull/709))
 
 ### Bug fixes
 

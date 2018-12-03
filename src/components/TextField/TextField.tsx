@@ -96,6 +96,8 @@ export interface BaseProps {
   ariaActiveDescendant?: string;
   /** Indicates what kind of user input completion suggestions are provided */
   ariaAutocomplete?: string;
+  /** Indicates whether the character count should be displayed or not */
+  showCharacterCount?: boolean;
   /** Callback when value is changed */
   onChange?(value: string, id: string): void;
   /** Callback when input is focused */
@@ -176,6 +178,7 @@ export default class TextField extends React.PureComponent<Props, State> {
       ariaActiveDescendant,
       ariaAutocomplete,
       ariaControls,
+      showCharacterCount,
     } = this.props;
 
     const {height} = this.state;
@@ -230,6 +233,9 @@ export default class TextField extends React.PureComponent<Props, State> {
     }
     if (helpText) {
       describedBy.push(helpTextID(id));
+    }
+    if (showCharacterCount) {
+      describedBy.push(`${id}-labeled-character-counter`);
     }
 
     const labelledBy = [labelID(id)];
@@ -290,6 +296,9 @@ export default class TextField extends React.PureComponent<Props, State> {
         action={labelAction}
         labelHidden={labelHidden}
         helpText={helpText}
+        maxLength={maxLength}
+        characterCount={value.length}
+        showCharacterCount={showCharacterCount}
       >
         <Connected left={connectedLeft} right={connectedRight}>
           <div

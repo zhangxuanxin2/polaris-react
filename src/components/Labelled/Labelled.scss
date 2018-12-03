@@ -22,3 +22,9 @@
   word-break: break-word;
   overflow-wrap: break-word;
 }
+
+.CharacterCount {
+  @include text-style-body;
+  @include text-emphasis-subdued;
+  margin-top: spacing(extra-tight);
+}
