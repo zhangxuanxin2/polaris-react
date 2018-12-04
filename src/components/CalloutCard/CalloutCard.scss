@@ -1,4 +1,5 @@
 .CalloutCard {
+  position: relative;
   display: flex;
   align-items: center;
 }
@@ -24,4 +25,10 @@
 
 .Buttons {
   margin-top: spacing(loose);
+}
+
+.Dismiss {
+  right: 0;
+  top: 0;
+  position: absolute;
 }

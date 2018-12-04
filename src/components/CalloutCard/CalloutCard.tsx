@@ -4,7 +4,7 @@ import {Action} from '../../types';
 import Card from '../Card';
 import TextContainer from '../TextContainer';
 import ButtonGroup from '../ButtonGroup';
-import {buttonFrom} from '../Button';
+import Button, {buttonFrom} from '../Button';
 import Heading from '../Heading';
 import Image from '../Image';
 
@@ -21,6 +21,8 @@ export interface Props {
   primaryAction: Action;
   /** Secondary action for the card */
   secondaryAction?: Action;
+  /** Callback when banner is dismissed */
+  onDismiss?(): void;
 }
 
 export default function CalloutCard({
@@ -29,6 +31,7 @@ export default function CalloutCard({
   illustration,
   primaryAction,
   secondaryAction,
+  onDismiss,
 }: Props) {
   const primaryActionMarkup = buttonFrom(primaryAction);
   const secondaryActionMarkup = secondaryAction
@@ -44,9 +47,21 @@ export default function CalloutCard({
     primaryActionMarkup
   );
 
+  const dismissButton = onDismiss ? (
+    <div className={styles.Dismiss}>
+      <Button
+        plain
+        icon="cancelSmall"
+        onClick={onDismiss}
+        accessibilityLabel="Dismiss notification"
+      />
+    </div>
+  ) : null;
+
   return (
     <Card sectioned>
       <div className={styles.CalloutCard}>
+        {dismissButton}
         <div className={styles.Content}>
           <div className={styles.Title}>
             <Heading>{title}</Heading>
