@@ -53,7 +53,7 @@ export default function CalloutCard({
         plain
         icon="cancelSmall"
         onClick={onDismiss}
-        accessibilityLabel="Dismiss notification"
+        accessibilityLabel="Dismiss card"
       />
     </div>
   ) : null;
