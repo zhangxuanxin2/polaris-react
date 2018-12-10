@@ -1,5 +1,6 @@
 import * as React from 'react';
-import {mountWithAppProvider, trigger} from 'test-utilities';
+import {mountWithAppProvider} from 'test-utilities';
+import {Button} from 'components';
 import CalloutCard from '../CalloutCard';
 
 describe('<CalloutCard />', () => {
@@ -51,7 +52,13 @@ describe('<CalloutCard />', () => {
   });
 
   it('is dismissed', () => {
-    trigger(calloutCard, 'onDismiss');
+    expect(calloutCard.find(Button)).toHaveLength(2);
+
+    calloutCard
+      .find(Button)
+      .first()
+      .simulate('click');
+
     expect(spy).toBeCalled();
   });
 });
