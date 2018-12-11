@@ -142,5 +142,8 @@ module.exports = (baseConfig, env, config) => {
 
   baseConfig.plugins.push(new TSDocgenPlugin()); // optional
   baseConfig.resolve.extensions.push('.ts', '.tsx');
+  baseConfig.resolve.alias = {
+    '@shopify/polaris': path.resolve(__dirname, '..', 'src'),
+  };
   return baseConfig;
 };

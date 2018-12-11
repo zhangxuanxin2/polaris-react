@@ -1,6 +1,7 @@
 import React from 'react';
 import {storiesOf, addDecorator} from '@storybook/react';
-import * as Polaris from '../src';
+import Playground from '../playground/Playground';
+import * as Polaris from '@shopify/polaris';
 
 export function generateStoriesForComponent(component) {
   storiesOf(component.name, module)
@@ -23,6 +24,12 @@ export function hydrateExecutableExamples(components) {
 
     return component;
   });
+}
+
+export function addPlaygroundStory() {
+  storiesOf('Playground', module)
+    .addDecorator(AppProviderDecorator)
+    .add('Playground', () => <Playground />);
 }
 
 function AppProviderDecorator(story) {

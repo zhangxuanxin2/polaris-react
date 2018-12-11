@@ -1,5 +1,6 @@
 import {configure} from '@storybook/react';
 import {
+  addPlaygroundStory,
   generateStoriesForComponent,
   hydrateExecutableExamples,
 } from './stories-from-examples';
@@ -8,6 +9,8 @@ import {
 // const req = require.context('../stories', true, /.stories.(js|ts)x?$/);
 function loadStories() {
   // req.keys().forEach((filename) => req(filename));
+
+  addPlaygroundStory();
 
   // At the moment the loader pulls in ALL component READMEs based upon a glob
   // The filename here has no effect. we just need something that triggers using
