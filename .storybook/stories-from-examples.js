@@ -2,13 +2,7 @@ import React from 'react';
 import {storiesOf, addDecorator} from '@storybook/react';
 import * as Polaris from '../src';
 
-// eslint-disable-next-line shopify/strict-component-boundaries
-import {components as componentsFromReadMe} from '../src/components/README.md';
-
-const components = hydrateExecutableExamples(componentsFromReadMe);
-components.forEach(generateStoriesForComponent);
-
-function generateStoriesForComponent(component) {
+export function generateStoriesForComponent(component) {
   storiesOf(component.name, module)
     .addDecorator(AppProviderDecorator)
     .add('All Examples', () => AllExamplesStoryForComponent(component));
@@ -20,7 +14,7 @@ function generateStoriesForComponent(component) {
   });
 }
 
-function hydrateExecutableExamples(components) {
+export function hydrateExecutableExamples(components) {
   return components.map((component) => {
     component.examples = component.examples.map((example) => {
       example.Component = example.code({React, ...Polaris});
