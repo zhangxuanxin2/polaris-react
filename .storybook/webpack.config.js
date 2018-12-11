@@ -14,8 +14,12 @@ const ICON_PATH_REGEX = /icons\//;
 const IMAGE_PATH_REGEX = /\.(jpe?g|png|gif|svg)$/;
 
 module.exports = (baseConfig, env, config) => {
-  // console.log(JSON.stringify(config.module.rules, null, 2));
-  // process.exit();
+  // When transpiling TS using isolatedModules, the compiler doesn't strip
+  // out exported types as it doesn't know if an item is a type or not.
+  // Ignore those warnings as we don't care about them.
+  const stats = {warningsFilter: /export .* was not found in/};
+  baseConfig.stats = stats;
+  baseConfig.devServer = {stats};
 
   const cacheDir = path.resolve(__dirname, '../build/cache/storybook');
 
@@ -140,7 +144,7 @@ module.exports = (baseConfig, env, config) => {
 
   baseConfig.module.rules.splice(1, 0, ...extraRules);
 
-  baseConfig.plugins.push(new TSDocgenPlugin()); // optional
+  // baseConfig.plugins.push(new TSDocgenPlugin()); // optional
   baseConfig.resolve.extensions.push('.ts', '.tsx');
   baseConfig.resolve.alias = {
     '@shopify/polaris': path.resolve(__dirname, '..', 'src'),
