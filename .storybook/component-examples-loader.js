@@ -199,15 +199,24 @@ function parseCodeExamples(data, file) {
     isExampleForPlatform(example, 'web'),
   );
 
+  const nameRegex = /(.)*/;
+  const codeRegex = /```jsx(.|\n)*?```/g;
+
   const examples = webExamples.map((example) => {
-    const nameMatches = example.match(/(.)*/);
-    const codeBlock = example.match(/```jsx(.|\n)*?```/g);
+    const nameMatches = example.match(nameRegex);
+    const codeBlock = example.match(codeRegex);
 
     const name = nameMatches !== null ? nameMatches[0].trim() : '';
     const code =
       codeBlock !== null ? wrapExample(stripCodeBlock(codeBlock[0])) : '';
 
-    return {name, slug: slugify(name), code};
+    // TODO need to strip out android/ios examples
+    const description = example
+      .replace(nameRegex, '')
+      .replace(codeRegex, '')
+      .trim();
+
+    return {name, slug: slugify(name), code, description};
   });
 
   if (examples.filter((example) => example.code).length === 0) {

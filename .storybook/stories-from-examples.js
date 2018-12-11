@@ -11,7 +11,9 @@ export function generateStoriesForComponent(component) {
   component.examples.forEach((example) => {
     storiesOf(component.name, module)
       .addDecorator(AppProviderDecorator)
-      .add(example.name, () => <example.Component />);
+      .add(example.name, () => <example.Component />, {
+        notes: example.description,
+      });
   });
 }
 
