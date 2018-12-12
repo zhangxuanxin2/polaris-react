@@ -426,8 +426,9 @@ function formatDateForTimezone(date: Date) {
       : date.getHours() - hourOffset;
   const updatedDate = new Date(date.setHours(midnight));
   const month = padStart(String(updatedDate.getUTCMonth() + 1), 2, '0');
-  const output = `${updatedDate.getUTCFullYear()}-${month}-${updatedDate.getUTCDate()}`;
-  return output;
+  const formattedDate = `${updatedDate.getUTCFullYear()}-${month}-${updatedDate.getUTCDate()}T00:00:00.000Z`;
+
+  return formattedDate;
 }
 
 export default withAppProvider<Props>()(DateSelector);

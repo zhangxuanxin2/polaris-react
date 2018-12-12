@@ -270,7 +270,9 @@ describe('<DateSelector />', () => {
       trigger(wrapper.find(DatePicker), 'onChange', {end: new Date(date)});
       trigger(wrapper.find(Select), 'onChange', newDateFilter);
 
-      expect(onFilterValueChangeSpy).toHaveBeenCalledWith('2019-05-28');
+      expect(onFilterValueChangeSpy).toHaveBeenCalledWith(
+        '2019-05-28T00:00:00.000Z',
+      );
     });
 
     it('gets called with formatted YYYY-MM-DD date when date filter is updated to filter with maximum date predicate (on or before) and current date selection', () => {
@@ -289,7 +291,9 @@ describe('<DateSelector />', () => {
       trigger(wrapper.find(DatePicker), 'onChange', {end: new Date(date)});
       trigger(wrapper.find(Select), 'onChange', newDateFilter);
 
-      expect(onFilterValueChangeSpy).toHaveBeenCalledWith('2019-05-28');
+      expect(onFilterValueChangeSpy).toHaveBeenCalledWith(
+        '2019-05-28T00:00:00.000Z',
+      );
     });
 
     it('gets called with formatted YYYY-MM-DD date when date is updated in DatePicker', () => {
@@ -307,7 +311,9 @@ describe('<DateSelector />', () => {
 
       trigger(wrapper.find(DatePicker), 'onChange', {end: new Date(date)});
 
-      expect(onFilterValueChangeSpy).toHaveBeenCalledWith('2019-05-28');
+      expect(onFilterValueChangeSpy).toHaveBeenCalledWith(
+        '2019-05-28T00:00:00.000Z',
+      );
     });
 
     it('gets called with date when date is updated in TextField with YYYY-MM-DD date and TextField is blurred', () => {
@@ -326,7 +332,9 @@ describe('<DateSelector />', () => {
       trigger(wrapper.find(TextField), 'onChange', date);
       trigger(wrapper.find(TextField), 'onBlur');
 
-      expect(onFilterValueChangeSpy).toHaveBeenCalledWith('2019-08-22');
+      expect(onFilterValueChangeSpy).toHaveBeenCalledWith(
+        '2019-08-22T00:00:00.000Z',
+      );
     });
 
     it('gets called with undefined when date is updated in TextField with invalid date and TextField is blurred', () => {
