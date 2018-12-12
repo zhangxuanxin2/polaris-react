@@ -6,8 +6,8 @@ const chalk = require('chalk');
 const grayMatter = require('gray-matter');
 
 /**
- * A Webpack loader, that reads all README files, and returns an array of
- * component readmes, and the examples contained within them.
+ * A Webpack loader, that expects a Polaris README file, and returns metadata,
+ * and the examples contained within the readme.
  *
  * The `code` property of the examples are functions that will render a JSX
  * component when called with a scope object that contains React and Polaris's
@@ -17,17 +17,10 @@ const grayMatter = require('gray-matter');
  * generate a function with the correct local scope by dynamically creating
  * a parameters list.
  */
-module.exports = function loader() {
-  const files = glob.sync(`${__dirname}/../src/components/***/README.md`);
-
-  // Treat all files as depdendencies so that if any of them change then we
-  // reparse all of them
-  files.forEach((file) => {
-    this.addDependency(file);
-  });
+module.exports = function loader(source) {
   this.cacheable();
 
-  const data = parseMarkdown(files);
+  const readme = parseCodeExamples(source);
 
   // Work around JSON.stringify() not supporting functions.
   // First replace all code functions within the data with a placeholder string.
@@ -35,13 +28,13 @@ module.exports = function loader() {
   // { code: function() {/* blah */ } }
   // into:
   // { code: "___CODEPLACEHOLDER__0__0___" }
-  const dataWithPlaceholders = data.map((readme, readmeIdx) => ({
+  const readmeWithPlaceholders = {
     ...readme,
     examples: readme.examples.map((example, exampleIdx) => ({
       ...example,
-      code: `___CODEPLACEHOLDER__${readmeIdx}__${exampleIdx}___`,
+      code: `___CODEPLACEHOLDER__${exampleIdx}___`,
     })),
-  }));
+  };
 
   // Then stringify the data, and replace all the placeholder strings with the
   // with the function declaration.
@@ -49,10 +42,9 @@ module.exports = function loader() {
   // { code: "___CODEPLACEHOLDER__0__0___" }
   // back into:
   // { code: function() {/* blah */ } }
-  const stringyData = JSON.stringify(dataWithPlaceholders, null, 2).replace(
-    /"___CODEPLACEHOLDER__(\d+)__(\d+)___"/g,
-    (_, readmeIdx, exampleIdx) =>
-      data[readmeIdx].examples[exampleIdx].code.toString(),
+  const stringyReadme = JSON.stringify(readmeWithPlaceholders, null, 2).replace(
+    /"___CODEPLACEHOLDER__(\d+)___"/g,
+    (_, exampleIdx) => readme.examples[exampleIdx].code.toString(),
   );
 
   // Example code does not have any scope attached to it by default. It boldly
@@ -84,56 +76,10 @@ module.exports = function loader() {
     return eval(`(${fnString})`)(...scopeValues);
   };
 
-  return `const codeInvoker = ${codeInvoker};\nexport const components = ${stringyData};`;
+  return `const codeInvoker = ${codeInvoker};\nexport const component = ${stringyReadme};`;
 };
 
 const exampleForRegExp = /<!-- example-for: ([\w\s,]+) -->/u;
-
-function parseMarkdown(files) {
-  console.log();
-  console.log('🔎 Parsing examples in component README.md files:');
-  console.log();
-  let errorCount = 0;
-
-  const parsedExamples = files
-    .map((file) => {
-      const data = fs.readFileSync(file, 'utf8');
-      let examples;
-
-      try {
-        examples = parseCodeExamples(data, file);
-      } catch (err) {
-        errorCount++;
-        if (process.env.CI) {
-          throw new Error(err);
-        } else {
-          console.warn(`   ${err.message}`);
-          return null;
-        }
-      }
-
-      return examples;
-    })
-    .filter((example) => example);
-
-  if (errorCount > 0) {
-    console.log();
-    console.log(
-      `${errorCount} error${
-        errorCount !== 1 ? 's' : ''
-      } found in component READMEs.`,
-    );
-    console.log('Troubleshooting tips and tricks:');
-    console.log(
-      'https://github.com/Shopify/polaris-react/blob/master/documentation/Component%20READMEs.md#troubleshooting',
-    );
-  }
-
-  console.log();
-  console.log('✅ Parsing examples in component README.md files complete');
-
-  return parsedExamples;
-}
 
 function stripCodeBlock(block) {
   return block
@@ -152,27 +98,37 @@ function isExampleForPlatform(exampleMarkdown, platform) {
   return foundExampleFor[1].includes(platform);
 }
 
-function parseCodeExamples(data, file) {
+function parseCodeExamples(data) {
   const matter = grayMatter(data);
 
+  return {
+    name: matter.data.name,
+    slug: slugify(matter.data.name),
+    examples: generateExamples(matter),
+  };
+}
+
+function generateExamples(matter) {
   if (matter.data.platforms && !matter.data.platforms.includes('web')) {
     console.log(
-      chalk`   ℹ️  {grey [${
+      chalk`ℹ️ {grey [${
         matter.data.name
-      }] Component was ignored (platforms: ${matter.data.platforms.join(
+      }] Component examples are ignored (platforms: ${matter.data.platforms.join(
         ',',
       )})}`,
     );
-    return null;
+
+    return [];
   }
 
   if (matter.data.hidePlayground) {
     console.log(
-      chalk`   ℹ️  {grey [${
+      chalk`ℹ️ {grey [${
         matter.data.name
-      }] Component was ignored (hidePlayground: true)}`,
+      }] Component examples are ignored (hidePlayground: true)}`,
     );
-    return null;
+
+    return [];
   }
 
   const introAndComponentSections = matter.content
@@ -187,61 +143,50 @@ function parseCodeExamples(data, file) {
     .split('###');
 
   const [, ...allExamples] = examplesAndHeader;
-  const filePath = file.split('polaris-react/').slice(-1)[0];
 
   if (allExamples.length === 0) {
-    throw new Error(
-      chalk`🚨 {red [${matter.data.name}]} No examples found in ${filePath}`,
-    );
+    console.log(chalk`🚨 {red [${matter.data.name}]} No examples found.`);
   }
-
-  const webExamples = allExamples.filter((example) =>
-    isExampleForPlatform(example, 'web'),
-  );
 
   const nameRegex = /(.)*/;
   const codeRegex = /```jsx(.|\n)*?```/g;
 
-  const examples = webExamples.map((example) => {
-    const nameMatches = example.match(nameRegex);
-    const codeBlock = example.match(codeRegex);
+  const examples = allExamples
+    .filter((example) => isExampleForPlatform(example, 'web'))
+    .map((example) => {
+      const nameMatches = example.match(nameRegex);
+      const codeBlock = example.match(codeRegex);
 
-    const name = nameMatches !== null ? nameMatches[0].trim() : '';
-    const code =
-      codeBlock !== null ? wrapExample(stripCodeBlock(codeBlock[0])) : '';
+      const name = nameMatches !== null ? nameMatches[0].trim() : '';
+      const code =
+        codeBlock !== null ? wrapExample(stripCodeBlock(codeBlock[0])) : '';
 
-    // TODO need to strip out android/ios examples
-    const description = example
-      .replace(nameRegex, '')
-      .replace(codeRegex, '')
-      .trim();
+      // TODO need to strip out android/ios examples
+      const description = example
+        .replace(nameRegex, '')
+        .replace(codeRegex, '')
+        .trim();
 
-    return {name, slug: slugify(name), code, description};
-  });
+      return {name, slug: slugify(name), code, description};
+    });
 
   if (examples.filter((example) => example.code).length === 0) {
-    throw new Error(
-      chalk`🚨 {red [${
-        matter.data.name
-      }]} At least one react example expected in ${filePath}`,
+    console.log(
+      chalk`🚨 {red [${matter.data.name}]} At least one react example expected`,
     );
   }
 
   examples.forEach((example) => {
     if (example.code === '') {
-      throw new Error(
+      console.log(
         chalk`🚨 {red [${matter.data.name}]} Example “${
           example.name
-        }” is missing a React example in ${filePath}`,
+        }” is missing a React example`,
       );
     }
   });
 
-  return {
-    name: matter.data.name,
-    slug: slugify(matter.data.name),
-    examples,
-  };
+  return examples;
 }
 
 function wrapExample(code) {
@@ -262,7 +207,7 @@ return ${classMatch[1]};
     }`;
   }
 
-  // The eagle-eyed amongst you will spoty that the function passed to
+  // The eagle-eyed amongst you will spot that the function passed to
   // codeInvoker has no arguments. This is because the codeInvoker function
   // shall dynamically modify the given function, adding items from the current
   // scope as arguments. We can't do this with some kind of placeholder value

@@ -2,24 +2,25 @@ import {configure, addDecorator} from '@storybook/react';
 import {withNotes} from '@storybook/addon-notes';
 import {
   addPlaygroundStory,
-  generateStoriesForComponent,
+  generateStories,
   hydrateExecutableExamples,
-} from './stories-from-examples';
+} from './stories-from-readme';
 
 addDecorator(withNotes);
 
-// automatically import all files ending in *.stories.{js,jsx,ts,tsx}
-// const req = require.context('../stories', true, /.stories.(js|ts)x?$/);
+// import all README.md files within component folders
+const readmeReq = require.context(
+  '../src/components',
+  true,
+  /\/.+\/README.md$/,
+);
 function loadStories() {
-  // req.keys().forEach((filename) => req(filename));
-
   addPlaygroundStory();
 
-  // At the moment the loader pulls in ALL component READMEs based upon a glob
-  // The filename here has no effect. we just need something that triggers using
-  // the markdown loader
-  const components: any = require('../src/components/README.md').components;
-  hydrateExecutableExamples(components).forEach(generateStoriesForComponent);
+  readmeReq.keys().forEach((filename) => {
+    const readme = readmeReq(filename).component;
+    generateStories(hydrateExecutableExamples(readme));
+  });
 }
 
 configure(loadStories, module);

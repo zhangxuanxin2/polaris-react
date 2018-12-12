@@ -3,29 +3,35 @@ import {storiesOf, addDecorator} from '@storybook/react';
 import Playground from '../playground/Playground';
 import * as Polaris from '@shopify/polaris';
 
-export function generateStoriesForComponent(component) {
-  storiesOf(component.name, module)
-    .addDecorator(AppProviderDecorator)
-    .add('All Examples', () => AllExamplesStoryForComponent(component));
+export function generateStories(readme) {
+  // Only generate stories if there are examples
+  if (readme.examples.length === 0) {
+    return;
+  }
 
-  component.examples.forEach((example) => {
-    storiesOf(component.name, module)
+  storiesOf(readme.name, module)
+    .addDecorator(AppProviderDecorator)
+    .add('All Examples', () => AllExamplesStoryForReadme(readme));
+
+  readme.examples.forEach((example) => {
+    storiesOf(readme.name, module)
       .addDecorator(AppProviderDecorator)
       .add(example.name, () => <example.Component />, {
-        notes: example.description,
+        // TODO links use styleguide-style URLs. It'd be neat to mutate them
+        // to deeplink to examples in storybook.
+        // TODO remove content-for android/ios blocks from the description
+        notes: {markdown: example.description},
       });
   });
 }
 
-export function hydrateExecutableExamples(components) {
-  return components.map((component) => {
-    component.examples = component.examples.map((example) => {
-      example.Component = example.code({React, ...Polaris});
-      return example;
-    });
-
-    return component;
+export function hydrateExecutableExamples(readme) {
+  readme.examples = readme.examples.map((example) => {
+    example.Component = example.code({React, ...Polaris});
+    return example;
   });
+
+  return readme;
 }
 
 export function addPlaygroundStory() {
@@ -43,7 +49,7 @@ function AppProviderDecorator(story) {
  * We only screenshot this with Percy instead of every example individually to
  * keep the costs down as they charge per screenshot.
  */
-function AllExamplesStoryForComponent(component) {
+function AllExamplesStoryForReadme(readme) {
   // Prevent false positives in visual regression testing.
   // Set a minimum height so that examples don't shift and triger
   // a failure if an example above them changes height
@@ -51,7 +57,7 @@ function AllExamplesStoryForComponent(component) {
 
   return (
     <React.Fragment>
-      {component.examples.map((example) => (
+      {readme.examples.map((example) => (
         <React.Fragment key={example.name}>
           <div style={containerStyle}>
             <example.Component />

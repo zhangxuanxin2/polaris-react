@@ -25,7 +25,7 @@ module.exports = (baseConfig, env, config) => {
 
   const extraRules = [
     {
-      test: /\.md$/,
+      test: /src\/components\/.+\/README\.md$/,
       use: [
         {
           loader: 'babel-loader',
@@ -40,7 +40,7 @@ module.exports = (baseConfig, env, config) => {
           },
         },
         {
-          loader: `${__dirname}/component-examples-loader.js`,
+          loader: `${__dirname}/polaris-readme-loader.js`,
         },
       ],
     },
@@ -142,7 +142,7 @@ module.exports = (baseConfig, env, config) => {
     },
   ];
 
-  baseConfig.module.rules.splice(1, 0, ...extraRules);
+  baseConfig.module.rules = [baseConfig.module.rules[0], ...extraRules];
 
   // baseConfig.plugins.push(new TSDocgenPlugin()); // optional
   baseConfig.resolve.extensions.push('.ts', '.tsx');
