@@ -15,7 +15,7 @@
     );
 
     @if $state == 'focused' {
-      box-shadow: inset rem(2px) 0 0 color('indigo');
+      box-shadow: inset rem(2px) 0 0 var(--primary-background);
     }
 
     @if $state == 'focused-destructive' {

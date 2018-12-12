@@ -66,7 +66,7 @@ $chekbox-label-margin: rem(20px);
   }
 
   &.CheckableButton-selected {
-    color: color('indigo');
+    color: var(--primary-background);
 
     @include breakpoint-after(resource-list(breakpoint-small)) {
       border-color: color('sky', 'dark');

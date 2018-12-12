@@ -8,7 +8,7 @@ $range-thumb-size: rem(24px);
 $range-thumb-shadow: (0 0 0 rem(1px) rgba(black, 0.2), shadow(faint));
 $range-thumb-shadow-hover: (0 0 0 rem(1px) rgba(black, 0.4), shadow(faint));
 $range-thumb-shadow-error: 0 0 0 rem(1px) color('red');
-$range-thumb-shadow-focus: 0 0 0 rem(1px) color('indigo');
+$range-thumb-shadow-focus: 0 0 0 rem(1px) var(--primary-background);
 
 .RangeSlider {
   display: flex;
@@ -42,7 +42,7 @@ $range-thumb-shadow-focus: 0 0 0 rem(1px) color('indigo');
 }
 
 .Input {
-  --progress-lower: #{color('indigo')};
+  --progress-lower: #{var(--primary-background)};
   --progress-upper: #{color('sky', 'dark')};
   // create-react-app v2 leverages postcss-preset-env to transpile modern CSS
   // into something kinda supported by older browsers. Unfortunatly its
@@ -136,7 +136,7 @@ $range-thumb-shadow-focus: 0 0 0 rem(1px) color('indigo');
   // match `error` specificity for interaction styles
   .RangeSlider &:focus {
     // repeated so that `focus` can override `error`
-    --progress-lower: #{color('indigo')};
+    --progress-lower: #{var(--primary-background)};
 
     @include range-track-selectors {
       background-color: color('sky', 'dark');
@@ -147,7 +147,7 @@ $range-thumb-shadow-focus: 0 0 0 rem(1px) color('indigo');
         color('sky', 'lighter'),
         color('sky', 'light')
       );
-      border-color: color('indigo');
+      border-color: var(--primary-background);
       box-shadow: $range-thumb-shadow-focus;
     }
   }

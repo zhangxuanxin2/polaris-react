@@ -8,11 +8,11 @@ $dropzone-min-height-large: rem(160px);
 $dropzone-min-height-medium: rem(100px);
 $dropzone-min-height-small: rem(50px);
 
-$dropzone-overlay-color: color('indigo');
+$dropzone-overlay-color: var(--primary-background);
 $dropzone-overlay-color-error: color('red');
-$dropzone-overlay-border-color: color('indigo');
+$dropzone-overlay-border-color: var(--primary-background);
 $dropzone-overlay-border-color-error: color('red');
-$dropzone-overlay-background: color('indigo', 'lighter');
+$dropzone-overlay-background: var(--primary-background-lighter);
 $dropzone-overlay-background-error: color('red', 'lighter');
 
 .DropZone {

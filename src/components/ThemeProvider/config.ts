@@ -1,1 +1,1 @@
-export const needsVariantList = ['topBar'];
+export const needsVariantList = ['topBar', 'primary'];

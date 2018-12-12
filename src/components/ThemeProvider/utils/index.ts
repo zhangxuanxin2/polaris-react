@@ -1,5 +1,6 @@
 import tokens from '@shopify/polaris-tokens';
 import {noop} from '@shopify/javascript-utilities/other';
+import flatten from 'lodash/flatten';
 import {needsVariantList} from '../config';
 import {HSLColor} from '../../ColorPicker';
 import {
@@ -25,22 +26,24 @@ import {
 } from '../types';
 
 export function setColors(theme: Theme | undefined): string[][] | undefined {
-  let colorPairs;
+  const colorPairs: string[][][] = [];
   if (theme && theme.colors) {
     Object.entries(theme.colors).forEach(([colorKey, pairs]) => {
       const colorKeys = Object.keys(pairs);
       if (colorKey === 'topBar' && colorKeys.length > 1) {
-        colorPairs = colorKeys.map((key: string) => {
-          const colors = (theme.colors as ThemeColors).topBar;
-          return [constructColorName(colorKey, key), colors[key]];
-        });
+        colorPairs.push(
+          colorKeys.map((key: string) => {
+            const colors = (theme.colors as ThemeColors).topBar;
+            return [constructColorName(colorKey, key), colors[key]];
+          }),
+        );
       } else {
-        colorPairs = parseColors([colorKey, pairs]);
+        colorPairs.push(parseColors([colorKey, pairs]));
       }
     });
   }
 
-  return colorPairs;
+  return flatten(colorPairs);
 }
 
 export function needsVariant(name: string) {
@@ -99,6 +102,11 @@ export function setTheme(
         lightenToString(color, 7, -10),
       ]);
 
+      colorPairs.push([
+        constructColorName(baseName, key, 'lightest'),
+        lightenToString(color, 30, -10),
+      ]);
+
       break;
     case 'dark':
       colorPairs.push(
@@ -113,6 +121,11 @@ export function setTheme(
       colorPairs.push([
         constructColorName(baseName, key, 'lighter'),
         lightenToString(color, 15, 15),
+      ]);
+
+      colorPairs.push([
+        constructColorName(baseName, key, 'lightest'),
+        lightenToString(color, 30, 15),
       ]);
 
       break;

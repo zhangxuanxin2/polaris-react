@@ -70,7 +70,8 @@ $focus-state-box-shadow-color: rgba(92, 106, 196, 0.8);
 
     .Title {
       @include text-emphasis-normal;
-      border-bottom: border-width(thicker) solid color('indigo', 'light');
+      border-bottom: border-width(thicker) solid
+        var(--primary-background-lighter);
     }
   }
 
@@ -81,7 +82,7 @@ $focus-state-box-shadow-color: rgba(92, 106, 196, 0.8);
   &.Tab-selected {
     // stylelint-disable-next-line selector-max-class
     .Title {
-      border-bottom: border-width(thicker) solid color('indigo');
+      border-bottom: border-width(thicker) solid var(--primary-background);
     }
   }
 }

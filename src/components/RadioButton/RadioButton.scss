@@ -11,7 +11,7 @@
   &:active,
   &:checked {
     + .Backdrop {
-      background: color('indigo');
+      background: var(--primary-background);
     }
   }
 
@@ -61,7 +61,7 @@
   transform-origin: 50% 50%;
   height: 50%;
   width: 50%;
-  background: color('indigo');
+  background: var(--primary-background);
   border-radius: 50%;
   transition: control-icon-transition();
 

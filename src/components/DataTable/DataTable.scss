@@ -136,8 +136,8 @@ $breakpoint: 768px;
 
   &:hover {
     .Heading {
-      @include recolor-icon(color('indigo'));
-      color: color('indigo');
+      @include recolor-icon(var(--primary-background));
+      color: var(--primary-background);
     }
 
     .Icon {
@@ -163,8 +163,8 @@ $breakpoint: 768px;
 
   &:hover,
   &:focus {
-    @include recolor-icon(color('indigo'));
-    color: color('indigo');
+    @include recolor-icon(var(--primary-background));
+    color: var(--primary-background);
 
     .Icon {
       opacity: 1;

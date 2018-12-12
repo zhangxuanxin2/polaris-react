@@ -56,8 +56,8 @@
       }
     }
   } @else if $style == focused {
-    background: color('indigo');
-    box-shadow: 0 0 0 1px color('indigo'), shadow(transparent);
+    background: var(--primary-background);
+    box-shadow: 0 0 0 1px var(--primary-background), shadow(transparent);
 
     &::after {
       background: color('white');
@@ -87,8 +87,8 @@
       color: ms-high-contrast-color('disabled-text');
     }
   } @else if $style == focused-error {
-    background: color('indigo');
-    box-shadow: 0 0 0 1px color('indigo');
+    background: var(--primary-background);
+    box-shadow: 0 0 0 1px var(--primary-background);
 
     &::after {
       background: color('red', 'lighter');

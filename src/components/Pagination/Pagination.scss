@@ -130,9 +130,9 @@ $stacking-order: (
 
   &:focus {
     z-index: z-index(focused, $stacking-order);
-    border-color: color('indigo');
+    border-color: var(--primary-background);
     outline: 0;
-    box-shadow: 0 0 0 1px color('indigo');
+    box-shadow: 0 0 0 1px var(--primary-background);
   }
 
   &:active {

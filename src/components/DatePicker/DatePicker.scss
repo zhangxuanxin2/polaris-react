@@ -60,7 +60,7 @@ $in-range-border-color: #9ca6de;
   }
 
   &:focus {
-    box-shadow: inset 0 0 0 2px color('indigo');
+    box-shadow: inset 0 0 0 2px var(--primary-background);
   }
 
   + .Day,
@@ -75,26 +75,26 @@ $in-range-border-color: #9ca6de;
 
 .Day-inRange {
   z-index: z-index(in-range, $stacking-order);
-  background: color('indigo', 'light');
+  background: var(--primary-background-lighter);
   border: border-width() solid $in-range-border-color;
 
   &:hover {
-    background: darken(color('indigo', 'light'), 5%);
+    background: var(--primary-background-darker);
   }
 }
 
 .Day-selected {
   z-index: z-index(selected, $stacking-order);
-  background: color('indigo');
-  border: border-width() solid color('indigo');
+  background: var(--primary-background);
+  border: border-width() solid var(--primary-background);
   color: color('white');
 
   &:hover {
-    background: darken(color('indigo'), 5%);
+    background: var(--primary-background-darker);
   }
 
   &:focus {
-    box-shadow: inset 0 0 0 2px color('indigo', 'dark');
+    box-shadow: inset 0 0 0 2px var(--primary-background-darker);
   }
 }
 
