@@ -3,7 +3,6 @@
 // For more information refer the docs: https://storybook.js.org/configurations/custom-webpack-config
 
 const path = require('path');
-const TSDocgenPlugin = require('react-docgen-typescript-webpack-plugin');
 
 const {
   svgOptions: svgOptimizationOptions,
@@ -144,7 +143,6 @@ module.exports = (baseConfig, env, config) => {
 
   baseConfig.module.rules = [baseConfig.module.rules[0], ...extraRules];
 
-  // baseConfig.plugins.push(new TSDocgenPlugin()); // optional
   baseConfig.resolve.extensions.push('.ts', '.tsx');
   baseConfig.resolve.alias = {
     '@shopify/polaris': path.resolve(__dirname, '..', 'src'),
