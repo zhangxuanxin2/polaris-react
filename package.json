@@ -63,8 +63,7 @@
     "heroku-postbuild": "yarn run copy-polaris-tokens && webpack --config ./playground/webpack.config.js --env.production",
     "readme-update-version": "babel-node ./scripts/readme-update-version",
     "version": "yarn run readme-update-version",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "storybook": "start-storybook -p 6006"
   },
   "stylelint": {
     "extends": [

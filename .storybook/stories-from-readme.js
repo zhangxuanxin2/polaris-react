@@ -41,7 +41,11 @@ export function addPlaygroundStory() {
 }
 
 function AppProviderDecorator(story) {
-  return <Polaris.AppProvider>{story()}</Polaris.AppProvider>;
+  return (
+    <div style={{margin: '16px'}}>
+      <Polaris.AppProvider>{story()}</Polaris.AppProvider>
+    </div>
+  );
 }
 
 /**
