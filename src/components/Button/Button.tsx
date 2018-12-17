@@ -167,7 +167,6 @@ function Button({
       onBlur={onBlur}
       onMouseUp={handleMouseUpByBlurring}
       className={className}
-      disabled={isDisabled}
       aria-label={accessibilityLabel}
     >
       {indicatorMarkup}
