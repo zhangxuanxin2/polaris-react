@@ -683,7 +683,6 @@ describe('<TextField />', () => {
           label="TextField"
           id="MyField"
           onChange={noop}
-          labelHidden
         />,
       );
 
@@ -701,13 +700,29 @@ describe('<TextField />', () => {
           label="TextField"
           id="MyField"
           onChange={noop}
-          labelHidden
         />,
       );
 
       const characterCount = textField.find('span');
 
       expect(characterCount.text()).toBe('4 of 10 characters used');
+    });
+
+    it('shows character count when label hidden', () => {
+      const textField = mountWithAppProvider(
+        <TextField
+          value="test"
+          showCharacterCount
+          label="TextField"
+          id="MyField"
+          onChange={noop}
+          labelHidden
+        />,
+      );
+
+      const characterCount = textField.find('span');
+
+      expect(characterCount.text()).toBe('4 characters');
     });
   });
 

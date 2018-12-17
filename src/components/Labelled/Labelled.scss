@@ -1,5 +1,9 @@
-.hidden > .LabelWrapper {
-  @include visually-hidden;
+.hidden > .LabelCharacterCountWrapper {
+  justify-content: flex-end;
+
+  .LabelWrapper {
+    @include visually-hidden;
+  }
 }
 
 .LabelWrapper {
@@ -27,6 +31,7 @@
 .CharacterCount {
   @include text-style-body;
   @include text-emphasis-subdued;
+  margin-bottom: spacing(extra-tight);
 }
 
 .LabelCharacterCountWrapper {
