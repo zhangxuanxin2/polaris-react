@@ -8,7 +8,6 @@
 
 .LabelWrapper {
   margin-bottom: spacing(extra-tight);
-  margin-right: spacing(extra-loose);
   display: flex;
   justify-content: space-between;
   align-items: baseline;
@@ -39,4 +38,12 @@
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
+
+  .LabelWrapper {
+    margin-right: spacing(extra-loose);
+
+    label {
+      margin-right: spacing(tight);
+    }
+  }
 }

@@ -80,7 +80,7 @@ function Labelled({
       : 'Polaris.Labelled.characterCount',
     {characterCount, inputMaxLength},
   );
-  const characterCountMarkup = characterCount !== undefined && (
+  const characterCountMarkup = (
     <span
       id={`${id}-labeled-character-counter`}
       className={styles.CharacterCount}
@@ -91,12 +91,15 @@ function Labelled({
     </span>
   );
 
-  const labelCharacterCountMarkup = (
-    <div className={styles.LabelCharacterCountWrapper}>
-      {labelMarkup}
-      {characterCountMarkup}
-    </div>
-  );
+  const labelCharacterCountMarkup =
+    characterCount !== undefined ? (
+      <div className={styles.LabelCharacterCountWrapper}>
+        {labelMarkup}
+        {characterCountMarkup}
+      </div>
+    ) : (
+      labelMarkup
+    );
 
   return (
     <div className={className}>
