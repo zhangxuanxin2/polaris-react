@@ -138,6 +138,19 @@ Use for aligning buttons or secondary content to the right edge of another eleme
 
 ---
 
+## Stack item
+
+Use item to align buttons or secondary content to the right edge of another element, allowing it to wrap below on small screens.
+
+### Stack item properties
+
+| Prop     | Type    | Description                                                   | Default |
+| -------- | ------- | ------------------------------------------------------------- | ------- |
+| fill     | boolean | Fil the available horizontal space in the stack with the item | false   |
+| children | any     | Elements to display inside stack item                         |         |
+
+---
+
 ## Related components
 
 - To create the large-scale structure of pages, [use the layout component](/components/structure/layout)
