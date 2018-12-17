@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import {classNames} from '@shopify/react-utilities';
+
 import {Action} from '../../types';
 import Card from '../Card';
 import TextContainer from '../TextContainer';
@@ -58,19 +60,28 @@ export default function CalloutCard({
     </div>
   ) : null;
 
-  return (
-    <Card sectioned>
-      <div className={styles.CalloutCard}>
-        {dismissButton}
-        <div className={styles.Content}>
-          <div className={styles.Title}>
-            <Heading>{title}</Heading>
-          </div>
-          <TextContainer>{children}</TextContainer>
-          <div className={styles.Buttons}>{buttonMarkup}</div>
-        </div>
+  const imageClassName = classNames(
+    styles.Image,
+    onDismiss && styles.DismissImage,
+  );
 
-        <Image alt="" className={styles.Image} source={illustration} />
+  return (
+    <Card>
+      <div className={styles.Container}>
+        {dismissButton}
+        <Card.Section>
+          <div className={styles.CalloutCard}>
+            <div className={styles.Content}>
+              <div className={styles.Title}>
+                <Heading>{title}</Heading>
+              </div>
+              <TextContainer>{children}</TextContainer>
+              <div className={styles.Buttons}>{buttonMarkup}</div>
+            </div>
+
+            <Image alt="" className={imageClassName} source={illustration} />
+          </div>
+        </Card.Section>
       </div>
     </Card>
   );

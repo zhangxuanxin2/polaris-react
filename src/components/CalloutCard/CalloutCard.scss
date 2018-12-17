@@ -1,5 +1,4 @@
 .CalloutCard {
-  position: relative;
   display: flex;
   align-items: center;
 }
@@ -15,6 +14,10 @@
   }
 }
 
+.DismissImage {
+  margin-right: spacing(loose);
+}
+
 .Content {
   flex: 1 1 auto;
 }
@@ -27,8 +30,12 @@
   margin-top: spacing(loose);
 }
 
+.Container {
+  position: relative;
+}
+
 .Dismiss {
-  right: 0;
-  top: 0;
+  right: spacing();
+  top: spacing();
   position: absolute;
 }
