@@ -96,7 +96,7 @@ export interface BaseProps {
   ariaActiveDescendant?: string;
   /** Indicates what kind of user input completion suggestions are provided */
   ariaAutocomplete?: string;
-  /** Indicates whether the character count should be displayed or not */
+  /** Indicates whether or not the character count should be displayed */
   showCharacterCount?: boolean;
   /** Callback when value is changed */
   onChange?(value: string, id: string): void;
@@ -288,6 +288,8 @@ export default class TextField extends React.PureComponent<Props, State> {
       'aria-multiline': multiline,
     });
 
+    const characterCount = showCharacterCount ? value.length : undefined;
+
     return (
       <Labelled
         label={label}
@@ -296,9 +298,8 @@ export default class TextField extends React.PureComponent<Props, State> {
         action={labelAction}
         labelHidden={labelHidden}
         helpText={helpText}
-        maxLength={maxLength}
-        characterCount={value.length}
-        showCharacterCount={showCharacterCount}
+        inputMaxLength={maxLength}
+        characterCount={characterCount}
       >
         <Connected left={connectedLeft} right={connectedRight}>
           <div

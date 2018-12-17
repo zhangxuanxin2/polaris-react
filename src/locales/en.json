@@ -86,6 +86,11 @@
       "backdropWarning": "The {color} icon doesn’t accept backdrops. The icon colors that have backdrops are: {colorsWithBackDrops}"
     },
 
+    "Labelled": {
+      "characterCount": "{characterCount} characters",
+      "characterCountWithMaxLength": "{characterCount} of {inputMaxLength} characters used"
+    },
+
     "Modal": {
       "iFrameTitle": "body markup",
       "modalWarning": "These required properties are missing from Modal: {missingProps}"

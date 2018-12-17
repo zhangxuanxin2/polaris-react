@@ -3,6 +3,7 @@ import {classNames} from '@shopify/react-utilities/styles';
 
 import {Action, Error} from '../../types';
 
+import {withAppProvider, WithAppProviderProps} from '../AppProvider';
 import {buttonFrom} from '../Button';
 import Label, {Props as LabelProps, labelID} from '../Label';
 import InlineError from '../InlineError';
@@ -26,15 +27,15 @@ export interface Props {
   children?: React.ReactNode;
   /** Visually hide the label */
   labelHidden?: boolean;
-  /** Character count in the labled input */
+  /** Displays the number of characters entered in the input */
   characterCount?: number;
   /** Maximum character length for an input */
-  maxLength?: number;
-  /** Indicates whether the character count should be displayed or not */
-  showCharacterCount?: boolean;
+  inputMaxLength?: number;
 }
 
-export default function Labelled({
+export type CombinedProps = Props & WithAppProviderProps;
+
+function Labelled({
   id,
   label,
   error,
@@ -43,10 +44,10 @@ export default function Labelled({
   children,
   labelHidden,
   characterCount,
-  maxLength,
-  showCharacterCount,
+  inputMaxLength,
+  polaris: {intl},
   ...rest
-}: Props) {
+}: CombinedProps) {
   const className = classNames(labelHidden && styles.hidden);
 
   const actionMarkup = action ? buttonFrom(action, {plain: true}) : null;
@@ -56,17 +57,6 @@ export default function Labelled({
       {helpText}
     </div>
   ) : null;
-
-  const characterCountMarkup = showCharacterCount &&
-    maxLength && (
-      <span
-        id={`${id}-labeled-character-counter`}
-        className={styles.CharacterCount}
-        aria-live="polite"
-      >
-        {`${characterCount} of ${maxLength} characters used`}
-      </span>
-    );
 
   const errorMarkup = error &&
     typeof error !== 'boolean' && (
@@ -84,11 +74,34 @@ export default function Labelled({
     </div>
   ) : null;
 
+  const characterCountText = intl.translate(
+    inputMaxLength
+      ? 'Polaris.Labelled.characterCountWithMaxLength'
+      : 'Polaris.Labelled.characterCount',
+    {characterCount, inputMaxLength},
+  );
+  const characterCountMarkup = characterCount !== undefined && (
+    <span
+      id={`${id}-labeled-character-counter`}
+      className={styles.CharacterCount}
+      aria-live="polite"
+      aria-atomic="true"
+    >
+      {characterCountText}
+    </span>
+  );
+
+  const labelCharacterCountMarkup = (
+    <div className={styles.LabelCharacterCountWrapper}>
+      {labelMarkup}
+      {characterCountMarkup}
+    </div>
+  );
+
   return (
     <div className={className}>
-      {labelMarkup}
+      {labelCharacterCountMarkup}
       {children}
-      {characterCountMarkup}
       {errorMarkup}
       {helpTextMarkup}
     </div>
@@ -102,3 +115,5 @@ export function errorID(id: string) {
 export function helpTextID(id: string) {
   return `${id}HelpText`;
 }
+
+export default withAppProvider<Props>()(Labelled);

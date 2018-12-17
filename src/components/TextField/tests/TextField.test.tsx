@@ -650,9 +650,8 @@ describe('<TextField />', () => {
       expect(textField.find(Labelled).prop('label')).toBe('TextField');
       expect(textField.find(Labelled).prop('id')).toBe('MyField');
       expect(textField.find(Labelled).prop('helpText')).toBe('Help text');
-      expect(textField.find(Labelled).prop('showCharacterCount')).toBe(true);
       expect(textField.find(Labelled).prop('characterCount')).toBe(0);
-      expect(textField.find(Labelled).prop('maxLength')).toBe(5);
+      expect(textField.find(Labelled).prop('inputMaxLength')).toBe(5);
     });
 
     it('passes error to Labelled', () => {
@@ -674,6 +673,41 @@ describe('<TextField />', () => {
       );
 
       expect(textField.find(Labelled).prop('labelHidden')).toBe(true);
+    });
+
+    it('counts characters in input field', () => {
+      const textField = mountWithAppProvider(
+        <TextField
+          value="test"
+          showCharacterCount
+          label="TextField"
+          id="MyField"
+          onChange={noop}
+          labelHidden
+        />,
+      );
+
+      const characterCount = textField.find('span');
+
+      expect(characterCount.text()).toBe('4 characters');
+    });
+
+    it('counts characters in input field with max length', () => {
+      const textField = mountWithAppProvider(
+        <TextField
+          value="test"
+          maxLength={10}
+          showCharacterCount
+          label="TextField"
+          id="MyField"
+          onChange={noop}
+          labelHidden
+        />,
+      );
+
+      const characterCount = textField.find('span');
+
+      expect(characterCount.text()).toBe('4 of 10 characters used');
     });
   });
 
