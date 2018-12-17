@@ -41,9 +41,9 @@
 
   .LabelWrapper {
     margin-right: spacing(extra-loose);
+  }
 
-    label {
-      margin-right: spacing(tight);
-    }
+  button {
+    margin-left: spacing(tight);
   }
 }
