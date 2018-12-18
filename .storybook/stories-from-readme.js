@@ -1,7 +1,8 @@
 import React from 'react';
+import * as Polaris from '@shopify/polaris';
+import {checkA11y} from '@storybook/addon-a11y';
 import {storiesOf, addDecorator} from '@storybook/react';
 import Playground from '../playground/Playground';
-import * as Polaris from '@shopify/polaris';
 
 export function generateStories(readme) {
   // Only generate stories if there are examples
@@ -11,11 +12,13 @@ export function generateStories(readme) {
 
   storiesOf(readme.name, module)
     .addDecorator(AppProviderDecorator)
+    .addDecorator(checkA11y)
     .add('All Examples', () => AllExamplesStoryForReadme(readme));
 
   readme.examples.forEach((example) => {
     storiesOf(readme.name, module)
       .addDecorator(AppProviderDecorator)
+      .addDecorator(checkA11y)
       .add(example.name, () => <example.Component />, {
         // TODO links use styleguide-style URLs. It'd be neat to mutate them
         // to deeplink to examples in storybook.
